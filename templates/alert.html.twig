@@ -1,0 +1,7 @@
+{% if 0 < (errors | length) %}
+    <div class="alert">
+        {% for error in errors %}
+            - {{ error | trans({}, 'validations') }}
+        {% endfor %}
+    </div>
+{% endif %}

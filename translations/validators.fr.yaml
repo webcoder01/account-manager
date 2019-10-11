@@ -1,0 +1,11 @@
+account:
+    label_name:
+        regex: Le libellé ne peut contenir de caractères spéciaux
+        max_length: Le nom du compte est limité à %max% caractères
+
+transaction:
+    label_name:
+        regex: Le libellé ne peut contenir de caractères spéciaux
+        max_length: Le nom de l'opération est limité à %max% caractères
+    amount:
+        regex: Le montant ne peut dépasser 999 999 et ne peut comporter que des chiffres et un . comme séparateur

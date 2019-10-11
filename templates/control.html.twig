@@ -1,0 +1,16 @@
+{% set class = null %}
+{% set symbol = null %}
+
+{% if control is same as('radio') %}
+    {% set class = 'control-radio' %}
+    {% set symbol = 'fa-circle' %}
+{% elseif control is same as('checkbox') %}
+    {% set class = 'control-checkbox' %}
+    {% set symbol = 'fa-check' %}
+{% endif %}
+
+{% if class is not null %}
+    <span class="control {{ class }}">
+        <span class="fas {{ symbol }} control-flag"></span>
+    </span>
+{% endif %}

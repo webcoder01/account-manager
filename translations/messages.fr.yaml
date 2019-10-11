@@ -1,0 +1,49 @@
+nav:
+    home: Accueil
+    subscription: Abonnements
+    profile: Profil
+    disconnect: Déconnexion
+
+account:
+    no_items: Vous n'avez pour le moment aucun compte enregistré
+    delete_item: Supprimer les sélections
+    form:
+        add: Ajouter
+        label_name:
+            placeholder: Créez un compte
+    transaction:
+        new: Nouvelle entrée
+        edit: Editer
+        delete: Supprimer
+        no_items: Vous n'avez enregistré aucune opération sur ce compte
+    budget: Budget
+
+transaction:
+    form:
+        label_name:
+            label: Description
+        amount:
+            label: Montant
+        action_date:
+            label: Date
+        id_ref_transaction_type:
+            label: Type d'opération
+        submit:
+            new: Ajouter
+
+core:
+    month:
+        january: Janvier
+        february: Février
+        march: Mars
+        april: Avril
+        may: Mai
+        june: Juin
+        july: Juillet
+        august: Août
+        september: Septembre
+        october: Octobre
+        november: Novembre
+        december: Décembre
+    previous: Précédent
+    next: Suivant

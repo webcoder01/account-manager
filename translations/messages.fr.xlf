@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="VYTR44p" resname="nav.home">
+        <source>nav.home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="mT0QE4K" resname="nav.subscription">
+        <source>nav.subscription</source>
+        <target>Abonnements</target>
+      </trans-unit>
+      <trans-unit id="I7Tzuko" resname="nav.profile">
+        <source>nav.profile</source>
+        <target>Profil</target>
+      </trans-unit>
+      <trans-unit id="yK.QGiv" resname="nav.disconnect">
+        <source>nav.disconnect</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+      <trans-unit id="0bhGxd7" resname="account.no_items">
+        <source>account.no_items</source>
+        <target>Vous n'avez pour le moment aucun compte enregistré</target>
+      </trans-unit>
+      <trans-unit id="7gXFN6S" resname="account.form.add">
+        <source>account.form.add</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="lP74czO" resname="account.form.label_name.placeholder">
+        <source>account.form.label_name.placeholder</source>
+        <target>Créez un compte</target>
+      </trans-unit>
+      <trans-unit id="tuAV77Z" resname="security.login.submit">
+        <source>security.login.submit</source>
+        <target>__security.login.submit</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

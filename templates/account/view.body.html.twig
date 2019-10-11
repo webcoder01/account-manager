@@ -1,0 +1,51 @@
+<section id="account-header">
+    <div>
+        <span id="previous-month" class="fas fa-chevron-left" data-label="{{ (('core.month.' ~ previousMonth) | lower) | trans }}"></span>
+    </div>
+
+    <div id="active-month" data-month="{{ monthIndex }}">
+        {{ account.labelName }}
+        <div>{{ (('core.month.' ~ month) | lower) | trans }}</div>
+    </div>
+
+    <div>
+        <span id="next-month" class="fas fa-chevron-right" data-label="{{ (('core.month.' ~ nextMonth) | lower) | trans }}"></span>
+    </div>
+</section>
+
+<section id="account-body">
+    <div>
+        <a href="{{ path('transaction.add') }}" class="btn btn-primary">{{ 'account.transaction.new' | trans }}</a>
+    </div>
+
+    {% if 0 == (transactions | length) %}
+        <div id="no-transaction">
+            {{ 'account.transaction.no_items' | trans }}
+        </div>
+
+    {% else %}
+        <div id="transaction-list">
+            {% for trans in transactions %}
+                <div class="transaction" data-transaction="{{ trans.id }}">
+                    <div class="trans-edit">
+                        <a href="{{ path('transaction.edit', {id: trans.id}) }}">
+                            <span class="fas fa-pencil-alt"></span>
+                        </a>
+                    </div>
+                    <div class="trans-infos">
+                        <span class="infos-label">{{ trans.labelName }}</span>
+                        <span class="infos-amount">{{ trans.amount | number_format(2, ',', ' ') }} €</span>
+                        <span class="infos-type">{{ trans.idRefTransactionType.labelName }}</span>
+                    </div>
+                    <div class="trans-day">
+                        {{ trans.actionDate | date('d') }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+
+<div id="loader-container">
+    <div class="loader"><div></div><div></div><div></div><div></div></div>
+</div>

@@ -1,0 +1,40 @@
+# Security
+login:
+    path: /user/login
+    controller: App\Controller\SecurityController::login
+
+logout:
+    path: /user/logout
+    methods: [GET]
+
+# Account
+account.view:
+    path: /account/{id}/{navigation}
+    controller: App\Controller\AccountController:view
+    defaults:
+        id: 0
+        navigation: actual
+    requirements:
+        id: '\d+'
+        navigation: '(previous|actual|next)'
+
+account.add:
+    path: /account/add
+    controller: App\Controller\AccountController:add
+    methods: [POST]
+
+# Transaction
+transaction.add:
+    path: /transaction/add
+    controller: App\Controller\TransactionController:add
+
+transaction.edit:
+    path: /transaction/{id}
+    controller: App\Controller\TransactionController:edit
+    requirements:
+        id: '\d+'
+
+# Budget
+budget.view:
+    path: /budget
+    controller: App\Controller\BudgetController\view

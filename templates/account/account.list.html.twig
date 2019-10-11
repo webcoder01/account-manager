@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/account.css') }}">
+{% endblock %}
+
+{% block body %}
+    
+    {% if 0 == (accounts | length) %}
+        <p>{{ 'account.no_items' | trans }}</p>
+    {% endif %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form.labelName, {attr: {placeholder: ('account.form.label_name.placeholder' | trans)} }) }}
+        <input type="submit" class="btn btn-primary" value="{{ 'account.form.add' | trans }}">
+        {% if 0 < (errors | length) %}
+            <div class="error-form">
+                {% for error in errors %}
+                    <span>- {{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {{ form_end(form) }}
+
+    {% for account in accounts %}
+        <div class="account-list-item">
+            <a href="{{ path('account.details', {id: account.id}) }}">
+                {{ account.labelName }}
+
+                <span class="fas fa-angle-right"></span>
+            </a>
+        </div>
+    {% endfor %}
+    
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/account.js') }}"></script>
+{% endblock %}

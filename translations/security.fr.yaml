@@ -1,0 +1,7 @@
+security:
+    login:
+        email:
+            label: Email
+        password:
+            label: Mot de passe
+        submit: Connexion

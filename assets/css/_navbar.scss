@@ -1,0 +1,24 @@
+header
+{
+    nav
+    {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 1em;
+    }
+}
+
+#header-title
+{
+    text-align: center;
+    background-color: rgb(40, 40, 40);
+    color: #FFF;
+    padding: 1em;
+
+    span
+    {
+        float: left;
+    }
+}

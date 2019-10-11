@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    <fieldset>
+        {{ form_label(form.email) | trans }}
+        {{ form_widget(form.email) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(form.password) | trans }}
+        {{ form_widget(form.password) }}
+    </fieldset>
+
+    <input type="submit" value="{{ 'security.login.submit' | trans({}, 'security') }}" class="btn btn-primary">
+
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+
+<div class="field">
+    <label class="label is-small">Libellé</label>
+    <div class="control">
+        {{ form_widget(form.labelName) }}
+    </div>
+</div>
+
+<div class="field">
+    <label class="label is-small">Montant</label>
+    <div class="control">
+        {{ form_widget(form.amount) }}
+    </div>
+</div>
+
+<div class="field">
+    <label class="label is-small">Date</label>
+    <div class="select">
+        {{ form_widget(form.actionDate) }}
+    </div>
+</div>
+
+<div class="field">
+    <label class="label is-small">Type</label>
+    <div class="select">
+        {{ form_widget(form.idRefTransactionType) }}
+    </div>
+</div>
+
+<div class="field">
+    <div class="control">
+        <button class="button is-primary">Ajouter</button>
+    </div>
+</div>
+
+{{ form_end(form) }}
