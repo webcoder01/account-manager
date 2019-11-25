@@ -1,30 +1,24 @@
-###> symfony/framework-bundle ###
-/.env
+# Environment config
 /.env.local
 /.env.local.php
 /.env.*.local
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
 
-###> symfony/phpunit-bridge ###
+# Symfony
+/var/
+!/var/.htaccess
+/.web-server-pid
+/vendor/
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
-###< symfony/phpunit-bridge ###
 
-###> symfony/webpack-encore-bundle ###
+# Assets
 /node_modules/
+/public/bundles/
 /public/build/
 npm-debug.log
 yarn-error.log
-###< symfony/webpack-encore-bundle ###
 
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###
-
-###> IDEs ###
+# IDE
 /.idea/
-###< IDEs ###
+/nbproject/
