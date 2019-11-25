@@ -12,6 +12,10 @@ use App\Service\ErrorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\DateManager;
+use App\Entity\Income;
+use App\Form\IncomeType;
+use App\Model\OperationData;
 
 class AccountController extends AbstractController
 {
@@ -19,15 +23,18 @@ class AccountController extends AbstractController
      * Get the view of an account
      * @param Request $request
      * @param $id
-     * @param $navigation
+     * @param $year
+     * @param $month
      * @return Response
      * @throws \Exception
      */
-    public function view(Request $request, $id, $navigation)
+    public function view(Request $request, $id, $year, $month)
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $accountRepo = $em->getRepository('App:Account');
+        $transactionRepo = $em->getRepository('App:Transaction');
+        $incomeRepo = $em->getRepository('App:Income');
         $session = $request->getSession();
 
         // Get favorite account if no ID is defined
@@ -37,51 +44,63 @@ class AccountController extends AbstractController
             throw new \Exception("Account not found");
         }
 
-        // Reinitialize date when the account is changed
-        if($session->get(Session::ID_ACCOUNT) !== $account->getId()) {
-            $session->set(Session::NAVIGATION_ACCOUNT, null);
-        }
-
         // Get date asked
-        $activeDate = $session->get(Session::NAVIGATION_ACCOUNT);
-        if(null === $activeDate) {
-            $activeDate = new \DateTime();
-        }
-        else if('previous' === $navigation) {
-            $activeDate = $activeDate->modify('-1 month');
-        }
-        else if('next' === $navigation) {
-            $activeDate = $activeDate->modify('+1 month');
-        }
+        $dateString = $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
+        $dateAsked = \DateTime::createFromFormat('Y-m-d', $dateString);
+        
+        // Save the account ID and the date in session
+        $session->set(Session::ID_ACCOUNT, $account->getId());
+        $session->set(Session::NAVIGATION_ACCOUNT, $dateAsked);
 
         // Get transactions
-        $transactions = $em->getRepository('App:Transaction')->findByAccount($account->getId(), $activeDate);
+        $transactions = $transactionRepo->findByAccount($account->getId(), $dateAsked);
+        $totalAmount = $transactionRepo->getTotalAmountByAccountByMonth($account->getId(), $dateAsked);
+        $amountLeft = $accountRepo->getAmountLeftFromAccount($account->getId(), $dateAsked);
+        
+        // Get incomes
+        $incomes = $incomeRepo->findByAccount($account->getId(), $dateAsked);
 
         // Add a new transaction
-        $newTransaction = new Transaction();
-        $newTransaction->setIdAccount($account);
+        $newTransaction = OperationData::createEntity(OperationData::TRANSACTION_TYPE, $account);
         $transactionForm = $this->createForm(TransactionType::class, $newTransaction);
+        
+        // Add a new income
+        $newIncome = OperationData::createEntity(OperationData::INCOME_TYPE, $account);;
+        $newIncome->setActionDate($dateAsked);
+        $incomeForm = $this->createForm(IncomeType::class, $newIncome);
+        
         if($request->isMethod('post'))
         {
             $transactionForm->handleRequest($request);
-            if($transactionForm->isSubmitted() && $transactionForm->isValid())
+            $incomeForm->handleRequest($request);
+            
+            if(($transactionForm->isSubmitted() && $transactionForm->isValid()) || ($incomeForm->isSubmitted() && $incomeForm->isValid()))
             {
-                $em->persist($newTransaction);
-                $em->flush($newTransaction);
+                $entity = $transactionForm->isSubmitted() ? $newTransaction : $newIncome;
+                $em->persist($entity);
+                $em->flush($entity);
 
-                return $this->redirectToRoute($request->get('_route', ['id' => $account->getId(),]));
+                return $this->redirectToRoute($request->get('_route'), [
+                    'year' => $dateAsked->format('Y'),
+                    'month' => $dateAsked->format('n'),
+                    'id' => $account->getId(),
+                ]);
             }
         }
-
-        // Save the account ID and the date in session
-        $session->set(Session::ID_ACCOUNT, $account->getId());
-        $session->set(Session::NAVIGATION_ACCOUNT, $activeDate);
 
         return $this->render('account/view.html.twig', [
             'account' => $account,
             'transactions' => $transactions,
-            'actualDate' => $activeDate,
+            'incomes' => $incomes,
+            'totalAmount' => $totalAmount,
+            'amountLeft' => $amountLeft,
+            'date' => [
+                'previous' => DateManager::getPreviousMonthFromDate($dateAsked),
+                'now' => $dateAsked,
+                'next' => DateManager::getNextMonthFromDate($dateAsked),
+            ],
             'transactionForm' => $transactionForm->createView(),
+            'incomeForm' => $incomeForm->createView(),
         ]);
     }
 

@@ -1,80 +1,96 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Compte {{ account.labelName }} {% endblock %}
+
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('build/account.css') }}">
 {% endblock %}
 
 {% block body %}
+    
+    {# Display aditionnal informations with tags #}
+    <section>
+        <span class="tag is-dark account-info-tag"><span>Compte</span> {{ account.labelName }}</span>
+        <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>
+        <span class="tag is-dark account-info-tag">
+            <span>Reste</span> {{ amountLeft | number_format(2, ',', ' ') }} &euro;
+            {% if 0 > (amountLeft | round) %}
+                <span class="fas fa-exclamation-triangle has-text-danger"></span>
+            {% endif %}
+        </span>
+    </section>
 
+    {# Navigation by month #}
     <section id="month-navigation" class="columns is-mobile">
         <div class="column">
-            <a href="{{ path('account.view', {id: account.id, navigation: 'previous'}) }}">
+            <a href="{{ path('account.view', {id: account.id, year: (date.previous | date('Y')), month: (date.previous | date('n'))}) }}">
                 <span id="previous-month" class="fas fa-chevron-left"></span>
             </a>
         </div>
 
         <div class="column is-10">
-            {{ account.labelName }}
-            <div>{{ (('core.month.' ~ (actualDate | date('F'))) | lower) | trans }}</div>
+            <div>{{ (('core.month.' ~ (date.now | date('F'))) | lower) | trans }} {{ date.now | date('Y') }}</div>
         </div>
 
         <div class="column">
-            <a href="{{ path('account.view', {id: account.id, navigation: 'next'}) }}">
+            <a href="{{ path('account.view', {id: account.id, year: (date.next | date('Y')), month: (date.next | date('n'))}) }}">
                 <span id="next-month" class="fas fa-chevron-right"></span>
             </a>
         </div>
     </section>
-
+    
+    {# Main content #}
     <div class="columns">
         <div class="column">
             <section class="box">
                 <h2 class="subtitle">Opérations</h2>
-
-                <div class="is-hidden-desktop">
-                    <a href="{{ path('transaction.add') }}" class="button is-primary">Nouvelle opération</a>
-                    <a href="#" class="button has-background-white-bis budget-button">Budget</a>
+                
+                <div id="op-list-action" class="tabs is-boxed">
+                    <ul>
+                        <li class="is-active">
+                            <a data-target="#op-list-transaction">Dépenses</a>
+                        </li>
+                        <li>
+                            <a data-target="#op-list-income">Gains</a>
+                        </li>
+                    </ul>
                 </div>
-
-                {% if 0 == (transactions | length) %}
-                    <div class="notification">
-                        Aucune opération trouvée pour ce mois-ci.
-                    </div>
-
-                {% else %}
-                    <div class="transaction-list">
-                    {% for trans in transactions %}
-                        <div class="transaction columns is-mobile">
-                            <div class="column is-10">
-                                <div class="columns is-mobile">
-                                    <div class="column is-half">
-                                        <p class="has-text-grey-light is-size-7">{{ trans.labelName }}</p>
-                                        <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
-                                    </div>
-                                    <div class="column">
-                                        <span class="tag is-info is-pulled-right">{{ trans.idRefTransactionType.labelName }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <span class="has-text-grey-lighter is-pulled-right">{{ trans.actionDate | date('d') }}</span>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    </div>
-                {% endif %}
+                
+                <div class="op-target list-target is-active" id="op-list-transaction">
+                    {% include 'operation/view.html.twig' with {operations: transactions, isTransaction: true} only %}
+                </div>
+                
+                <div class="op-target list-target" id="op-list-income">
+                    {% include 'operation/view.html.twig' with {operations: incomes, isTransaction: false} only %}
+                </div>
             </section>
         </div>
 
+        {# Desktop #}
         <div class="column is-hidden-touch">
             <section class="box">
                 <h2 class="subtitle">Nouvelle opération</h2>
-                {{ include('transaction/form.html.twig', {form: transactionForm}) }}
+                
+                <div id="op-form-action" class="tabs is-boxed">
+                    <ul>
+                        <li class="is-active">
+                            <a data-target="#op-form-transaction">Dépense</a>
+                        </li>
+                        <li>
+                            <a data-target="#op-form-income">Gain</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="op-target form-target is-active" id="op-form-transaction">{{ include('operation/transaction.form.html.twig', {form: transactionForm}) }}</div>
+                <div class="op-target form-target" id="op-form-income">{{ include('operation/income.form.html.twig', {form: incomeForm}) }}</div>
             </section>
 
             <section class="box">
                 <h2 class="subtitle">Budget</h2>
             </section>
         </div>
+        {# /Desktop #}
     </div>
 
 {% endblock %}

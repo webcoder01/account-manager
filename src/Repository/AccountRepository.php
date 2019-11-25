@@ -41,7 +41,7 @@ class AccountRepository extends ServiceEntityRepository
      * Find account of user by id
      * @param int $userId
      * @param int $id
-     * @return mixed
+     * @return Account|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findByUserById(int $userId, int $id)
@@ -101,5 +101,18 @@ class AccountRepository extends ServiceEntityRepository
         $account = $this->find($result['id_account']);
 
         return $account;
+    }
+    
+    public function getAmountLeftFromAccount(int $accountId, \DateTime $date) : string
+    {
+        $con = $this->getEntityManager()->getConnection();
+        $stmt = $con->prepare('SELECT * FROM mo.get_amount_left_from_account(:accountId, :date)');
+        $stmt->bindValue('accountId', $accountId, \PDO::PARAM_INT);
+        $stmt->bindValue('date', $date, 'datetime');
+        $stmt->execute();
+        $amount = $stmt->fetchAll();
+        $stmt->closeCursor();
+        
+        return $amount[0]['get_amount_left_from_account'];
     }
 }

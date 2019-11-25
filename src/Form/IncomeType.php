@@ -2,28 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\Transaction;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Income;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Model\Session;
-use App\Service\DateManager;
 
-class TransactionType extends AbstractType
+class IncomeType extends AbstractType
 {
-    private $dateAccount;
-    
-    public function __construct(SessionInterface $session)
-    {
-        $this->dateAccount = $session->get(Session::NAVIGATION_ACCOUNT, new \DateTime());
-    }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -56,30 +44,13 @@ class TransactionType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('actionDate', ChoiceType::class, [
-                'choices' => DateManager::getDayOptions($this->dateAccount),
-            ])
-            ->add('idRefTransactionType', EntityType::class, [
-                'class' => 'App:RefTransactionType',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('t')
-                        ->addSelect('c')
-                        ->innerJoin('t.idRefTransactionCategory', 'c')
-                        ->orderBy('c.labelName', 'ASC')
-                        ->addOrderBy('t.labelName', 'ASC');
-                },
-                'choice_label' => 'labelName',
-                'group_by' => function($choice, $key, $value) {
-                    return $choice->getIdRefTransactionCategory()->getLabelName();
-                }
-            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Transaction::class,
+            'data_class' => Income::class,
         ]);
     }
 }

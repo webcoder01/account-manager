@@ -40,9 +40,15 @@ class Account
      */
     private $transactions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Income", mappedBy="idAccount")
+     */
+    private $incomes;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +117,37 @@ class Account
             // set the owning side to null (unless already changed)
             if ($transaction->getIdAccount() === $this) {
                 $transaction->setIdAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Income[]
+     */
+    public function getIncomes(): Collection
+    {
+        return $this->incomes;
+    }
+
+    public function addIncome(Income $income): self
+    {
+        if (!$this->incomes->contains($income)) {
+            $this->incomes[] = $income;
+            $income->setIdAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncome(Income $income): self
+    {
+        if ($this->incomes->contains($income)) {
+            $this->incomes->removeElement($income);
+            // set the owning side to null (unless already changed)
+            if ($income->getIdAccount() === $this) {
+                $income->setIdAccount(null);
             }
         }
 

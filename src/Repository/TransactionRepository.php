@@ -91,4 +91,25 @@ class TransactionRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
+    
+    public function getTotalAmountByAccountByMonth(int $accountId, \DateTime $date)
+    {
+        $minDate = clone $date;
+        $maxDate = clone $date;
+            
+        $query = $this->_em->createQueryBuilder()
+                ->select('sum(t.amount)')
+                ->from('App:Transaction', 't')
+                ->innerJoin('t.idAccount', 'a')
+                ->where('a.id = :accountId')
+                ->andWhere('t.actionDate >= :minDate')
+                ->andWhere('t.actionDate <= :maxDate')
+                ->setParameters([
+                    'accountId' => $accountId,
+                    'minDate' => $minDate->modify('first day of this month'),
+                    'maxDate' => $maxDate->modify('last day of this month'),
+                ]);
+        
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }

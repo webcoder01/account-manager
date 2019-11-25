@@ -1,6 +1,20 @@
 @import '../../node_modules/bulma/sass/utilities/initial-variables';
 @import "colors";
 
+.account-info-tag
+{
+    & > span
+    {
+        text-decoration: underline;
+        margin-right: 0.6em;
+    }
+    
+    .fa-exclamation-triangle
+    {
+        margin-left: 0.5em;
+    }
+}
+
 .budget-button
 {
     margin-left: 1em;
@@ -13,6 +27,8 @@
 
 #month-navigation
 {
+    margin-top: 1em;
+    
     & > div:nth-child(2)
     {
         text-align: center;
@@ -31,4 +47,9 @@
         cursor: pointer;
         background-color: $white-ter;
     }
+}
+
+.op-target:not(.is-active)
+{
+    display: none;
 }

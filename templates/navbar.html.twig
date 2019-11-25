@@ -1,27 +1,26 @@
-<header>
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ path('account.view') }}">{{ 'nav.home' | trans }}</a>
-            </li>
-            <li>
-                <a href="#">{{ 'nav.subscription' | trans }}</a>
-            </li>
-            <li>
-                <a href="#">{{ 'nav.profile' | trans }}</a>
-            </li>
-            <li class="nav-item-disconnect">
-                <a href="{{ path('logout') }}">{{ 'nav.disconnect' | trans }}</a>
-            </li>
-        </ul>
+{% set actualDate = 'now' | date %}
 
-        <a href="#" id="close-nav">
-            <span class="fas fa-times"></span>
-        </a>
+{% if is_granted('ROLE_USER') %}
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainnavbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="mainnavbar" class="navbar-menu">
+            <div class="navbar-start">
+                <a href="{{ path('account.view', {year: (actualDate | date('Y')), month: (actualDate | date('n'))}) }}" class="navbar-item">Accueil</a>
+                <a href="#" class="navbar-item">Profil</a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <a href="{{ path('logout') }}" class="button is-danger is-outlined">Déconnexion</a>
+                </div>
+            </div>
+        </div>
     </nav>
-
-    <div id="header-title">
-        <span class="fas fa-bars"></span>
-        {% block header %}{% endblock %}
-    </div>
-</header>
+{% endif %}

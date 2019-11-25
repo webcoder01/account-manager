@@ -1,21 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
+    <div class="columns is-mobile is-centered">
+        <div class="column is-half-desktop">
+            <div class="box">
+                {{ form_start(form) }}
 
-    <fieldset>
-        {{ form_label(form.email) | trans }}
-        {{ form_widget(form.email) }}
-    </fieldset>
+                <div class="field">
+                    <label class="label is-small">Email</label>
+                    <div class="control">
+                        {{ form_widget(form.email) }}
+                    </div>
+                </div>
 
-    <fieldset>
-        {{ form_label(form.password) | trans }}
-        {{ form_widget(form.password) }}
-    </fieldset>
+                <div class="field">
+                    <label class="label is-small">Mot de passe</label>
+                    <div class="control">
+                        {{ form_widget(form.password) }}
+                    </div>
+                </div>
 
-    <input type="submit" value="{{ 'security.login.submit' | trans({}, 'security') }}" class="btn btn-primary">
+                <div class="field is-grouped">
+                    <p class="control">
+                        <button class="button is-primary">Connexion</button>
+                    </p>
+                    <p class="control">
+                        <a href="#" class="button is-text">Mot de passe oublié ?</a>
+                    </p>
+                </div>
 
-    {{ form_end(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

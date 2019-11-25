@@ -1,3 +1,8 @@
+# Index
+index:
+    path: /
+    controller: App\Controller\IndexController::index
+
 # Security
 login:
     path: /user/login
@@ -9,29 +14,41 @@ logout:
 
 # Account
 account.view:
-    path: /account/{id}/{navigation}
+    path: /account/{year}/{month}/{id}
     controller: App\Controller\AccountController:view
     defaults:
         id: 0
-        navigation: actual
     requirements:
+        year: '\d{4}'
+        month: '\d{1,2}'
         id: '\d+'
-        navigation: '(previous|actual|next)'
 
 account.add:
     path: /account/add
     controller: App\Controller\AccountController:add
     methods: [POST]
 
-# Transaction
-transaction.add:
-    path: /transaction/add
-    controller: App\Controller\TransactionController:add
-
-transaction.edit:
-    path: /transaction/{id}
-    controller: App\Controller\TransactionController:edit
+# Operation
+operation.add:
+    path: /{type}/add
+    controller: App\Controller\OperationController:add
+    defaults:
+        type: transaction
     requirements:
+        type: '(transaction|income)'
+        
+operation.edit:
+    path: /{type}/edit/{id}
+    controller: App\Controller\OperationController:edit
+    requirements:
+        type: '(transaction|income)'
+        id: '\d+'
+
+operation.delete:
+    path: /{type}/delete/{id}
+    controller: App\Controller\OperationController:delete
+    requirements:
+        type: '(transaction|income)'
         id: '\d+'
 
 # Budget

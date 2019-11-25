@@ -1,0 +1,53 @@
+{# Touch devices #}
+<div class="is-hidden-desktop">
+    <a href="{{ path('operation.add', {type: (isTransaction ? 'transaction' : 'income')}) }}" class="button is-primary">Nouvelle opération</a>
+    {% if isTransaction %}
+        <a href="#" class="button has-background-white-bis budget-button">Budget</a>
+    {% endif %}
+</div>
+{# /Touch devices #}
+
+{% if 0 == (operations | length) %}
+    <div class="notification">
+        {% if isTransaction %}
+            Aucune opération trouvée pour ce mois-ci.
+        {% else %}
+            Aucun gain trouvé pour ce mois-ci.
+        {% endif %}
+    </div>
+    
+{% else %}
+
+    <div class="transaction-list">
+    {% for trans in operations %}
+        <div class="transaction columns is-mobile">
+            {% if isTransaction %}
+                <div class="column is-10">
+                    <div class="columns is-mobile">
+                        <div class="column is-half">
+                            <p class="has-text-grey-light is-size-7">
+                                <a href="{{ path('operation.edit', {type: 'transaction', id: trans.id}) }}">{{ trans.labelName }}</a>
+                            </p>
+                            <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                        <div class="column">
+                            <span class="tag is-info is-pulled-right">{{ trans.idRefTransactionType.labelName }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <span class="has-text-grey-lighter is-pulled-right">{{ trans.actionDate | date('d') }}</span>
+                </div>
+            {% else %}
+                <div class="column">
+                    <p class="has-text-grey-light is-size-7">
+                        <a href="{{ path('operation.edit', {type: 'income', id: trans.id}) }}">{{ trans.labelName }}</a>
+                    </p>
+                    <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+
+{% endif %}
