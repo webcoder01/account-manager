@@ -1,6 +1,8 @@
 production:
     stage: deploy
     script:
+    - rsync . /var/www/account-manager/ --exclude="vendor" --exclude="node_modules" --exclude="var"
+    - cd /var/www/account-manager
     - sudo -u www-data composer install
     - sudo -u www-data cp /var/env-projects/account-manager ./.env
     - sudo -u www-data php ./bin/console ca:c
