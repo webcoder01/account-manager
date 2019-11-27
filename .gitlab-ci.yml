@@ -1,7 +1,7 @@
 production:
     stage: deploy
     script:
-    - sudo -u root rsync . /var/www/account-manager/ --exclude="vendor" --exclude="node_modules" --exclude="var"
+    - sudo -u root rsync ./ /var/www/account-manager/ --exclude="vendor" --exclude="node_modules" --exclude="var" -exclude=".gitlab-ci.yml"
     - cd /var/www/account-manager
     - sudo -u www-data composer install
     - sudo -u www-data cp /var/env-projects/account-manager ./.env
