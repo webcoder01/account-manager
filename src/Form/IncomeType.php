@@ -39,7 +39,7 @@ class IncomeType extends AbstractType
                 ],
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/([0-9]{1,6}|[0-9]{1,6}\.[0-9]{1,2})/',
+                        'pattern' => '/^([0-9]{1,6}|[0-9]{1,6}\.[0-9]{1,2})$/',
                         'message' => 'Le montant ne peut dépasser 999 999 € et ne peut comporter que des chiffres et un . comme séparateur',
                     ]),
                 ],
