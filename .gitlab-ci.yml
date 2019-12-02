@@ -1,13 +1,16 @@
 production:
     stage: deploy
     script:
-    - sudo -u root rsync -rPz https://gitlab.com/webcoder01/account-manager/ /var/www/account-manager/ --exclude="vendor" --exclude="node_modules" --exclude="var" -exclude=".gitlab-ci.yml"
-    - cd /var/www/account-manager
-    - sudo -u www-data composer install
-    - sudo -u www-data cp /var/env-projects/account-manager ./.env
-    - sudo -u www-data php ./bin/console ca:c
-    - sudo -u www-data php ./bin/console ca:warmup
-    - sudo -u www-data yarn encore production
+        - sudo -u root rsync --chown=www-data:www-data -rz * /var/www/account-manager/ --exclude="vendor" --exclude="node_modules" --exclude="var" -exclude=".gitlab-ci.yml"
+        - cd /var/www/account-manager
+        - sudo -u www-data composer install
+        - sudo -u www-data cp /var/env-projects/account-manager ./.env
+        - sudo -u www-data php ./bin/console ca:c
+        - sudo -u www-data php ./bin/console ca:warmup
+        - sudo -u www-data yarn encore production
     when: manual
+    environment:
+        name: production
+        url: https://account-manager.webcoder01.com
     only:
-    - production
+        - production
