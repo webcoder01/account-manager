@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Transaction;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,6 +13,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Model\Session;
 use App\Service\DateManager;
+use App\Form\Type\RefTransactionType;
 
 class TransactionType extends AbstractType
 {
@@ -59,20 +58,7 @@ class TransactionType extends AbstractType
             ->add('actionDate', ChoiceType::class, [
                 'choices' => DateManager::getDayOptions($this->dateAccount),
             ])
-            ->add('idRefTransactionType', EntityType::class, [
-                'class' => 'App:RefTransactionType',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('t')
-                        ->addSelect('c')
-                        ->innerJoin('t.idRefTransactionCategory', 'c')
-                        ->orderBy('c.labelName', 'ASC')
-                        ->addOrderBy('t.labelName', 'ASC');
-                },
-                'choice_label' => 'labelName',
-                'group_by' => function($choice, $key, $value) {
-                    return $choice->getIdRefTransactionCategory()->getLabelName();
-                }
-            ])
+            ->add('idRefTransactionType', RefTransactionType::class)
         ;
     }
 
