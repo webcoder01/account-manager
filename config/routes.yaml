@@ -35,23 +35,29 @@ operation.add:
     defaults:
         type: transaction
     requirements:
-        type: '(transaction|income)'
+        type: '(transaction|income|budget)'
         
 operation.edit:
     path: /{type}/edit/{id}
     controller: App\Controller\OperationController:edit
     requirements:
-        type: '(transaction|income)'
+        type: '(transaction|income|budget)'
         id: '\d+'
 
 operation.delete:
     path: /{type}/delete/{id}
     controller: App\Controller\OperationController:delete
     requirements:
-        type: '(transaction|income)'
+        type: '(transaction|income|budget)'
         id: '\d+'
 
 # Budget
 budget.view:
-    path: /budget
-    controller: App\Controller\BudgetController\view
+    path: account/budget
+    controller: App\Controller\BudgetController:view
+    
+budget.manage:
+    path: account/budget/{id}
+    controller: App\Controller\BudgetController:manage
+    requirements:
+        id: '\d+'

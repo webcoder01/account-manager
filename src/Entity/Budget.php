@@ -45,9 +45,14 @@ class Budget
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RefTransactionType", inversedBy="budgets")
-     * @ORM\JoinColumn(nullable=false, name="id_ref_transaction_type")
+     * @ORM\JoinColumn(nullable=false, name="id_ref_transaction_type", referencedColumnName="id")
      */
     private $idRefTransactionType;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $dateYear;
     
     public function __construct()
     {
@@ -55,6 +60,7 @@ class Budget
         
         $this->isActive = true;
         $this->dateMonth = intval($now->format('n'));
+        $this->dateYear = intval($now->format('Y'));
     }
 
     public function getId(): ?int
@@ -130,6 +136,18 @@ class Budget
     public function setIdRefTransactionType(?RefTransactionType $idRefTransactionType): self
     {
         $this->idRefTransactionType = $idRefTransactionType;
+
+        return $this;
+    }
+
+    public function getDateYear(): ?int
+    {
+        return $this->dateYear;
+    }
+
+    public function setDateYear(int $dateYear): self
+    {
+        $this->dateYear = $dateYear;
 
         return $this;
     }

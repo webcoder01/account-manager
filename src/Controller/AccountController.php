@@ -4,7 +4,6 @@
 namespace App\Controller;
 
 use App\Entity\Account;
-use App\Entity\Transaction;
 use App\Form\AccountType;
 use App\Form\TransactionType;
 use App\Model\Session;
@@ -13,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\DateManager;
-use App\Entity\Income;
 use App\Form\IncomeType;
 use App\Model\OperationData;
+use App\Form\BudgetType;
 
 class AccountController extends AbstractController
 {
@@ -35,6 +34,7 @@ class AccountController extends AbstractController
         $accountRepo = $em->getRepository('App:Account');
         $transactionRepo = $em->getRepository('App:Transaction');
         $incomeRepo = $em->getRepository('App:Income');
+        $budgetRepo = $em->getRepository('App:Budget');
         $session = $request->getSession();
 
         // Get favorite account if no ID is defined
@@ -48,6 +48,9 @@ class AccountController extends AbstractController
         $dateString = $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
         $dateAsked = \DateTime::createFromFormat('Y-m-d', $dateString);
         
+        // Get amount left
+        $amountLeft = $accountRepo->getAmountLeftFromAccount($account->getId(), $dateAsked);
+        
         // Save the account ID and the date in session
         $session->set(Session::ID_ACCOUNT, $account->getId());
         $session->set(Session::NAVIGATION_ACCOUNT, $dateAsked);
@@ -55,28 +58,39 @@ class AccountController extends AbstractController
         // Get transactions
         $transactions = $transactionRepo->findByAccount($account->getId(), $dateAsked);
         $totalAmount = $transactionRepo->getTotalAmountByAccountByMonth($account->getId(), $dateAsked);
-        $amountLeft = $accountRepo->getAmountLeftFromAccount($account->getId(), $dateAsked);
         
         // Get incomes
         $incomes = $incomeRepo->findByAccount($account->getId(), $dateAsked);
+        
+        // Get budgets
+        $budgets = $budgetRepo->findByAccount($account->getId());
 
         // Add a new transaction
         $newTransaction = OperationData::createEntity(OperationData::TRANSACTION_TYPE, $account);
         $transactionForm = $this->createForm(TransactionType::class, $newTransaction);
         
         // Add a new income
-        $newIncome = OperationData::createEntity(OperationData::INCOME_TYPE, $account);;
+        $newIncome = OperationData::createEntity(OperationData::INCOME_TYPE, $account);
         $newIncome->setActionDate($dateAsked);
         $incomeForm = $this->createForm(IncomeType::class, $newIncome);
+        
+        // Add a new budget
+        $newBudget = OperationData::createEntity(OperationData::BUDGET_TYPE, $account);
+        $budgetForm = $this->createForm(BudgetType::class, $newBudget);
         
         if($request->isMethod('post'))
         {
             $transactionForm->handleRequest($request);
             $incomeForm->handleRequest($request);
+            $budgetForm->handleRequest($request);
             
-            if(($transactionForm->isSubmitted() && $transactionForm->isValid()) || ($incomeForm->isSubmitted() && $incomeForm->isValid()))
+            if(
+                    ($transactionForm->isSubmitted() && $transactionForm->isValid()) ||
+                    ($incomeForm->isSubmitted() && $incomeForm->isValid()) ||
+                    ($budgetForm->isSubmitted() && $budgetForm->isValid())
+            )
             {
-                $entity = $transactionForm->isSubmitted() ? $newTransaction : $newIncome;
+                $entity = $transactionForm->isSubmitted() ? $newTransaction : ($incomeForm->isSubmitted() ? $newIncome : $newBudget);
                 $em->persist($entity);
                 $em->flush($entity);
 
@@ -92,6 +106,7 @@ class AccountController extends AbstractController
             'account' => $account,
             'transactions' => $transactions,
             'incomes' => $incomes,
+            'budgets' => $budgets,
             'totalAmount' => $totalAmount,
             'amountLeft' => $amountLeft,
             'date' => [
@@ -101,6 +116,7 @@ class AccountController extends AbstractController
             ],
             'transactionForm' => $transactionForm->createView(),
             'incomeForm' => $incomeForm->createView(),
+            'budgetForm' => $budgetForm->createView(),
         ]);
     }
 

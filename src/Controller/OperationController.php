@@ -14,7 +14,7 @@ use App\Service\AccountManager;
 class OperationController extends AbstractController
 {  
     /**
-     * Add a transaction or an income
+     * Add a transaction, an income or a budget
      * @param Request $request
      * @param string $type
      * @return Response
@@ -30,7 +30,7 @@ class OperationController extends AbstractController
         }
         
         $entity = OperationData::createEntity($type, $account);
-        $formType = OperationData::TRANSACTION_TYPE === $type ? TransactionType::class : IncomeType::class;
+        $formType = OperationData::getFormType($type);
         $form = $this->createForm($formType, $entity);
         
         if($request->isMethod('post'))
@@ -57,7 +57,7 @@ class OperationController extends AbstractController
     }
     
     /**
-     * Edit a transaction or an income
+     * Edit a transaction, an income or a budget
      * @param Request $request
      * @param string $type
      * @param string $id
@@ -69,8 +69,8 @@ class OperationController extends AbstractController
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
-        $repository = OperationData::TRANSACTION_TYPE === $type ? $em->getRepository('App:Transaction') : $em->getRepository('App:Income');
-        $formType = OperationData::TRANSACTION_TYPE === $type ? TransactionType::class : IncomeType::class;
+        $repository = OperationData::getRepository($type, $em);
+        $formType = OperationData::getFormType($type);
         $entity = $repository->findByUserById($user->getId(), $id);
         if(null === $entity) {
             throw new \Exception($type . ' not found');
