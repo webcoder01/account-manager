@@ -2,11 +2,17 @@ require('./../css/account.scss');
 
 const $formTabs = document.querySelectorAll('#op-form-action a');
 const $listTabs = document.querySelectorAll('#op-list-action a');
+const $budgetTabs = document.querySelectorAll('#op-budget-action a');
 handleTabs($formTabs, true);
 handleTabs($listTabs, false);
+handleTabs($budgetTabs);
 
 function handleTabs($tabs, isForm)
 {
+    if('undefined' === typeof isForm) {
+        isForm = null;
+    }
+    
     for(let i = 0; i < $tabs.length; i++)
     {
         $tabs[i].addEventListener('click', () => {
@@ -21,7 +27,7 @@ function handleTabs($tabs, isForm)
 
 function hideTabTargets(isForm)
 {
-    const targetType = isForm ? 'form' : 'list';
+    const targetType = true === isForm ? 'form' : (null === isForm ? 'budget' : 'list');
     const $tabs = document.querySelectorAll('#op-' + targetType + '-action li');
     const $targets = document.getElementsByClassName(targetType + '-target');
     

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Budget{% endblock %}
+
+{% block body %}
+    <div class="columns is-mobile is-centered">
+        <div class="column is-two-thirds-tablet is-half-desktop">
+            <section class="box">
+                {% include ('operation/' ~ type ~ '.form.html.twig') with {form: form, id: (operationId is defined ? operationId : 0)} only %}
+            </section>
+        </div>
+    </div>
+{% endblock %}

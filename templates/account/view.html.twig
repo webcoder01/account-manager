@@ -13,8 +13,9 @@
         <span class="tag is-dark account-info-tag"><span>Compte</span> {{ account.labelName }}</span>
         <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>
         <span class="tag is-dark account-info-tag">
-            <span>Reste</span> {{ amountLeft | number_format(2, ',', ' ') }} &euro;
-            {% if 0 > (amountLeft | round) %}
+            <span>Reste</span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;
+            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} )
+            {% if 0 > (amountLeft.without_budget | round) %}
                 <span class="fas fa-exclamation-triangle has-text-danger"></span>
             {% endif %}
         </span>
@@ -51,8 +52,13 @@
                             <a data-target="#op-list-transaction">Dépenses</a>
                         </li>
                         <li>
-                            <a data-target="#op-list-income">Gains</a>
+                            <a data-target="#op-list-income">Revenus</a>
                         </li>
+                        {# Touch devices #}
+                        <li class="is-hidden-desktop">
+                            <a data-target="#op-list-budget">Budget</a>
+                        </li>
+                        {# /Touch devices #}
                     </ul>
                 </div>
                 
@@ -62,6 +68,10 @@
                 
                 <div class="op-target list-target" id="op-list-income">
                     {% include 'operation/view.html.twig' with {operations: incomes, isTransaction: false} only %}
+                </div>
+                
+                <div class="op-target list-target is-hidden-desktop" id="op-list-budget">
+                    {% include 'operation/view.html.twig' with {operations: budgets, isBudget: true} only %}
                 </div>
             </section>
         </div>
@@ -77,7 +87,7 @@
                             <a data-target="#op-form-transaction">Dépense</a>
                         </li>
                         <li>
-                            <a data-target="#op-form-income">Gain</a>
+                            <a data-target="#op-form-income">Revenu</a>
                         </li>
                     </ul>
                 </div>
@@ -88,6 +98,21 @@
 
             <section class="box">
                 <h2 class="subtitle">Budget</h2>
+                <div id="op-budget-action" class="tabs is-boxed">
+                    <ul>
+                        <li class="is-active">
+                            <a data-target="#op-mixed-budget-list">Liste</a>
+                        </li>
+                        <li>
+                            <a data-target="#op-mixed-budget-form">Formulaire</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="op-target budget-target is-active" id="op-mixed-budget-list">
+                    {% include 'operation/view.html.twig' with {operations: budgets, isBudget: true} only %}
+                </div>
+                <div class="op-target budget-target" id="op-mixed-budget-form">{{ include('operation/budget.form.html.twig', {form: budgetForm}) }}</div>
             </section>
         </div>
         {# /Desktop #}

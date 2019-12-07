@@ -1,9 +1,21 @@
+{% if isTransaction is not defined %}
+    {% set isTransaction = false %}
+{% endif %}
+
+{% if isBudget is not defined %}
+    {% set isBudget = false %}
+{% endif %}
+
+{% set newOpPath = 'transaction' %}
+{% if isBudget %}
+    {% set newOpPath = 'budget' %}
+{% elseif not isTransaction %}
+    {% set newOpPath = 'income' %}
+{% endif %}
+
 {# Touch devices #}
 <div class="is-hidden-desktop">
-    <a href="{{ path('operation.add', {type: (isTransaction ? 'transaction' : 'income')}) }}" class="button is-primary">Nouvelle opération</a>
-    {% if isTransaction %}
-        <a href="#" class="button has-background-white-bis budget-button">Budget</a>
-    {% endif %}
+    <a href="{{ path('operation.add', {type: newOpPath}) }}" class="button is-primary">Nouvelle opération</a>
 </div>
 {# /Touch devices #}
 
@@ -11,6 +23,8 @@
     <div class="notification">
         {% if isTransaction %}
             Aucune opération trouvée pour ce mois-ci.
+        {% elseif isBudget %}
+            Aucun budget planifié pour ce mois-ci.
         {% else %}
             Aucun gain trouvé pour ce mois-ci.
         {% endif %}
@@ -37,6 +51,20 @@
                 </div>
                 <div class="column">
                     <span class="has-text-grey-lighter is-pulled-right">{{ trans.actionDate | date('d') }}</span>
+                </div>
+            {% elseif isBudget %}
+                <div class="column is-7">
+                    <p class="has-text-grey-light is-size-7">
+                        <a href="{{ path('operation.edit', {type: 'budget', id: trans.id}) }}">{{ trans.labelName }}</a>
+                    </p>
+                    <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
+                </div>
+                <div class="column">
+                    {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
+                    {% set budgetStatus = constant(budgetStatusKey ~ (trans.isActive ? 'STATUT_DISABLE' : 'STATUT_ENABLE')) %}
+                    <a href="{{ path('budget.manage', {id: trans.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right {{ trans.isActive ? 'is-danger' : 'is-success'}}">
+                        {{ trans.isActive ? 'Désactiver' : 'Activer' }}
+                    </a>
                 </div>
             {% else %}
                 <div class="column">
