@@ -21,12 +21,27 @@ class AccountManager
         $this->token = $token;
     }
     
-    public function getAccountFromSession() : ?Account
+    public function getAccountFromSession(): ?Account
     {
         $user = $this->token->getToken()->getUser();
         $accountId = $this->session->get(Session::ID_ACCOUNT, 0);
         $entity = $this->em->getRepository('App:Account')->findByUserById($user->getId(), $accountId);
         
         return $entity;
+    }
+    
+    /**
+     * Returns array for twig from the account stored in session
+     * @return array
+     */
+    public function getTwigParamsForNavigation(): array
+    {
+        $date = $this->session->get(Session::NAVIGATION_ACCOUNT);
+        
+        return [
+            'year' => $date->format('Y'),
+            'month' => $date->format('n'),
+            'id' => $this->session->get(Session::ID_ACCOUNT),
+        ];
     }
 }

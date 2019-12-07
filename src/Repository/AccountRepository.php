@@ -103,7 +103,7 @@ class AccountRepository extends ServiceEntityRepository
         return $account;
     }
     
-    public function getAmountLeftFromAccount(int $accountId, \DateTime $date) : string
+    public function getAmountLeftFromAccount(int $accountId, \DateTime $date): array
     {
         $con = $this->getEntityManager()->getConnection();
         $stmt = $con->prepare('SELECT * FROM mo.get_amount_left_from_account(:accountId, :date)');
@@ -113,6 +113,6 @@ class AccountRepository extends ServiceEntityRepository
         $amount = $stmt->fetchAll();
         $stmt->closeCursor();
         
-        return $amount[0]['get_amount_left_from_account'];
+        return $amount[0];
     }
 }
