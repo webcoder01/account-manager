@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use App\Form\Type\RefTransactionType;
@@ -39,6 +40,9 @@ class BudgetType extends AbstractType
                         'message' => 'Le montant ne peut dépasser 999 999 € et ne peut comporter que des chiffres et un . comme séparateur',
                     ]),
                 ],
+            ])
+            ->add('isEstimated', CheckboxType::class, [
+                'value' => false,
             ])
             ->add('idRefTransactionType', RefTransactionType::class)
         ;

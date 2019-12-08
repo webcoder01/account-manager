@@ -44,7 +44,7 @@ class Budget
     private $idAccount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\RefTransactionType", inversedBy="budgets")
+     * @ORM\OneToOne(targetEntity="App\Entity\RefTransactionType", inversedBy="idBudget")
      * @ORM\JoinColumn(nullable=false, name="id_ref_transaction_type", referencedColumnName="id")
      */
     private $idRefTransactionType;
@@ -53,12 +53,18 @@ class Budget
      * @ORM\Column(type="integer")
      */
     private $dateYear;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEstimated;
     
     public function __construct()
     {
         $now = new \DateTime();
         
         $this->isActive = true;
+        $this->isEstimated = false;
         $this->dateMonth = intval($now->format('n'));
         $this->dateYear = intval($now->format('Y'));
     }
@@ -148,6 +154,18 @@ class Budget
     public function setDateYear(int $dateYear): self
     {
         $this->dateYear = $dateYear;
+
+        return $this;
+    }
+
+    public function getIsEstimated(): ?bool
+    {
+        return $this->isEstimated;
+    }
+
+    public function setIsEstimated(bool $isEstimated): self
+    {
+        $this->isEstimated = $isEstimated;
 
         return $this;
     }
