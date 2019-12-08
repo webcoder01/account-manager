@@ -19,18 +19,21 @@
 </div>
 {# /Touch devices #}
 
-{% if 0 == (operations | length) %}
+{% if 0 == (operations | length) and not isBudget %}
     <div class="notification">
         {% if isTransaction %}
             Aucune opération trouvée pour ce mois-ci.
-        {% elseif isBudget %}
-            Aucun budget planifié pour ce mois-ci.
         {% else %}
             Aucun gain trouvé pour ce mois-ci.
         {% endif %}
     </div>
     
-{% else %}
+{% elseif isBudget and 0 == (operations.enabled | length) and 0 == (operations.disabled | length) %}
+    <div class="notification">
+        Aucun budget planifié pour ce mois-ci.
+    </div>
+    
+{% elseif not isBudget %}
 
     <div class="transaction-list">
     {% for trans in operations %}
@@ -52,20 +55,6 @@
                 <div class="column">
                     <span class="has-text-grey-lighter is-pulled-right">{{ trans.actionDate | date('d') }}</span>
                 </div>
-            {% elseif isBudget %}
-                <div class="column is-7">
-                    <p class="has-text-grey-light is-size-7">
-                        <a href="{{ path('operation.edit', {type: 'budget', id: trans.id}) }}">{{ trans.labelName }}</a>
-                    </p>
-                    <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
-                </div>
-                <div class="column">
-                    {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
-                    {% set budgetStatus = constant(budgetStatusKey ~ (trans.isActive ? 'STATUT_DISABLE' : 'STATUT_ENABLE')) %}
-                    <a href="{{ path('budget.manage', {id: trans.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right {{ trans.isActive ? 'is-danger' : 'is-success'}}">
-                        {{ trans.isActive ? 'Désactiver' : 'Activer' }}
-                    </a>
-                </div>
             {% else %}
                 <div class="column">
                     <p class="has-text-grey-light is-size-7">
@@ -77,5 +66,43 @@
         </div>
     {% endfor %}
     </div>
+    
+{% else %}
+    <div class="transaction-list">
+        {% for transEnabled in operations.enabled %}
+            <div class="transaction columns is-mobile">
+                <div class="column is-7">
+                    <p class="has-text-grey-light is-size-7">
+                        <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}">{{ transEnabled.labelName }}</a>
+                    </p>
+                    <p>{{ transEnabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                </div>
+                <div class="column">
+                    {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
+                    {% set budgetStatus = constant(budgetStatusKey ~ 'STATUT_DISABLE') %}
+                    <a href="{{ path('budget.manage', {id: transEnabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-danger">
+                        Désactiver
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
 
+        {% for transDisabled in operations.disabled %}
+            <div class="transaction columns is-mobile">
+                <div class="column is-7">
+                    <p class="has-text-grey-light is-size-7">
+                        <a href="{{ path('operation.edit', {type: 'budget', id: transDisabled.id}) }}">{{ transDisabled.labelName }}</a>
+                    </p>
+                    <p>{{ transDisabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                </div>
+                <div class="column">
+                    {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
+                    {% set budgetStatus = constant(budgetStatusKey ~ 'STATUT_ENABLE') %}
+                    <a href="{{ path('budget.manage', {id: transDisabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-success">
+                        Activer
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}
