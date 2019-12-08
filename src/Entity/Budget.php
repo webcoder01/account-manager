@@ -44,7 +44,7 @@ class Budget
     private $idAccount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\RefTransactionType", inversedBy="budgets")
+     * @ORM\OneToOne(targetEntity="App\Entity\RefTransactionType", inversedBy="idBudget")
      * @ORM\JoinColumn(nullable=false, name="id_ref_transaction_type", referencedColumnName="id")
      */
     private $idRefTransactionType;
