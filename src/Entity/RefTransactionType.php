@@ -36,14 +36,13 @@ class RefTransactionType
     private $transactions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Budget", mappedBy="idRefTransactionType")
+     * @ORM\OneToOne(targetEntity="App\Entity\Budget", mappedBy="idRefTransactionType")
      */
-    private $budgets;
+    private $idBudget;
 
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
-        $this->budgets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,34 +105,15 @@ class RefTransactionType
         return $this;
     }
 
-    /**
-     * @return Collection|Budget[]
-     */
-    public function getBudgets(): Collection
+    public function getIdBudget(): ?Budget
     {
         return $this->budgets;
     }
-
-    public function addBudget(Budget $budget): self
+    
+    public function setIdBudget(?Budget $idBudget): self
     {
-        if (!$this->budgets->contains($budget)) {
-            $this->budgets[] = $budget;
-            $budget->setIdRefTransactionType($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBudget(Budget $budget): self
-    {
-        if ($this->budgets->contains($budget)) {
-            $this->budgets->removeElement($budget);
-            // set the owning side to null (unless already changed)
-            if ($budget->getIdRefTransactionType() === $this) {
-                $budget->setIdRefTransactionType(null);
-            }
-        }
-
+        $this->idBudget = $idBudget;
+        
         return $this;
     }
 }
