@@ -43,6 +43,7 @@ class BudgetType extends AbstractType
             ])
             ->add('isEstimated', CheckboxType::class, [
                 'value' => false,
+                'required' => false,
             ])
             ->add('idRefTransactionType', RefTransactionType::class)
         ;
