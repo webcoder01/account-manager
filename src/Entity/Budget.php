@@ -58,6 +58,11 @@ class Budget
      * @ORM\Column(type="boolean")
      */
     private $isEstimated;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPaid;
     
     public function __construct()
     {
@@ -65,6 +70,7 @@ class Budget
         
         $this->isActive = true;
         $this->isEstimated = false;
+        $this->isPaid = false;
         $this->dateMonth = intval($now->format('n'));
         $this->dateYear = intval($now->format('Y'));
     }
@@ -166,6 +172,18 @@ class Budget
     public function setIsEstimated(bool $isEstimated): self
     {
         $this->isEstimated = $isEstimated;
+
+        return $this;
+    }
+
+    public function getIsPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(bool $isPaid): self
+    {
+        $this->isPaid = $isPaid;
 
         return $this;
     }
