@@ -21,7 +21,7 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         $loginModel = new Usersite();
         $form = $this->createForm(LoginType::class, $loginModel);
-        $form->get('email')->setData($lastUsername);
+        $form->get('emailCanonical')->setData($lastUsername);
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
