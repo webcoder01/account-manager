@@ -26,6 +26,11 @@ class Usersite implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $emailCanonical;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -63,6 +68,18 @@ class Usersite implements UserInterface
         return $this;
     }
 
+    public function getEmailCanonical(): ?string
+    {
+        return $this->emailCanonical;
+    }
+
+    public function setEmailCanonical(string $emailCanonical): self
+    {
+        $this->emailCanonical = strtolower($emailCanonical);
+
+        return $this;
+    }
+
     /**
      * A visual identifier that represents this user.
      *
@@ -70,7 +87,7 @@ class Usersite implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->emailCanonical;
     }
 
     /**

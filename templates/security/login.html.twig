@@ -11,7 +11,7 @@
                 <div class="field">
                     <label class="label is-small">Email</label>
                     <div class="control">
-                        {{ form_widget(form.email) }}
+                        {{ form_widget(form.emailCanonical) }}
                     </div>
                 </div>
 
@@ -35,4 +35,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/login.js') }}"></script>
 {% endblock %}
