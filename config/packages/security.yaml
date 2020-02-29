@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\Usersite:
-            algorithm: sha512
+            algorithm: '%encoder_algorithm%'
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
