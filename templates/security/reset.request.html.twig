@@ -1,33 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Demande de mot de passe{% endblock %}
 
 {% block body %}
     <div class="columns is-mobile is-centered">
         <div class="column is-half-desktop">
             <div class="box">
+                <h2 class="subtitle">Nouvelle demande de mot de passe</h2>
+
                 {{ form_start(form) }}
 
                 <div class="field">
                     <label class="label is-small">Email</label>
                     <div class="control">
-                        {{ form_widget(form.emailCanonical) }}
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label is-small">Mot de passe</label>
-                    <div class="control">
-                        {{ form_widget(form.password) }}
+                        {{ form_widget(form.email) }}
                     </div>
                 </div>
 
                 <div class="field is-grouped">
                     <p class="control">
-                        <button class="button is-primary">Connexion</button>
+                        <button class="button is-primary">Valider</button>
                     </p>
                     <p class="control">
-                        <a href="{{ path('reset_request') }}" class="button is-text">Mot de passe oublié ?</a>
+                        <a href="{{ path('login') }}" class="button is-text">Retour</a>
                     </p>
                 </div>
 
@@ -38,5 +33,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('build/login.js') }}"></script>
+{#    <script type="text/javascript" src="{{ asset('build/login.js') }}"></script>#}
 {% endblock %}
