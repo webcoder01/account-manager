@@ -42,6 +42,10 @@ class Usersite implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[&#!?$@%*-+])[a-zA-Z0-9&#!?$@%*-+]{8,100}$/",
+     *     message="Le mot de passe doit faire au minimum 8 caractères et doit contenir une minuscule, une majuscule, un chiffre et un des caractères spéciaux &#!?$@%*-+"
+     * )
      */
     private $password;
 
