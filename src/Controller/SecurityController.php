@@ -12,6 +12,7 @@ use App\Service\Security;
 use App\Utils\Constants;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -99,6 +100,15 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit the user's password
+     *
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param string $token
+     *
+     * @return RedirectResponse|Response
+     */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token)
     {
         $em = $this->getDoctrine()->getManager();
