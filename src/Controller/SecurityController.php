@@ -128,6 +128,7 @@ class SecurityController extends AbstractController
             if($form->isSubmitted() && $form->isValid()) {
                 $password = $passwordEncoder->encodePassword($user, $form->get('password')->getData());
                 $user->setPassword($password);
+                $em->remove($resetRequest);
                 $em->flush();
                 $this->addFlash(Constants::FLASH_SUCCESS, 'Le mot de passe a été changé');
 
