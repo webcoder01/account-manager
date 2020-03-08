@@ -83,7 +83,7 @@ class SecurityController extends AbstractController
                 $em->flush();
 
                 if ($mailer->sendResetRequest($userFound->getEmail(), $resetRequest->getTokenRequest())) {
-                    $this->addFlash(Constants::FLASH_SUCCESS, 'Un email a été envoyé à l\'adresse email');
+                    $this->addFlash(Constants::FLASH_SUCCESS, 'Un email a été envoyé à l\'adresse email indiquée');
                 } else {
                     $this->addFlash(Constants::FLASH_WARNING, 'L\'email n\'a pas pu être envoyé');
                 }
