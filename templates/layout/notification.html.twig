@@ -1,0 +1,10 @@
+{% set types = get_notifications() %}
+
+{% for label, messages in app.flashes(types) %}
+    {% for message in messages %}
+        <div class="notification is-{{ label }} is-light">
+            <button class="delete"></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
