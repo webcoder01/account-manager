@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersiteRepository")
@@ -22,6 +23,9 @@ class Usersite implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message="L'email est invalide."
+     * )
      */
     private $email;
 
@@ -38,6 +42,10 @@ class Usersite implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[&#!?$@%*-+])[a-zA-Z0-9&#!?$@%*-+]{8,100}$/",
+     *     message="Le mot de passe doit faire au minimum 8 caractères et doit contenir une minuscule, une majuscule, un chiffre et un des caractères spéciaux &#!?$@%*-+"
+     * )
      */
     private $password;
 
