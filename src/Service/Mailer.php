@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
@@ -59,9 +60,9 @@ class Mailer
         $this->subject = getenv('APP_OWNER') . ' : réinitialisation du mot de passe';
         $this->from = getenv('MAILER_EMAIL');
         $this->to = strtolower(trim($email));
-        $this->template = 'mailer/reset.password.html.twig';
+        $this->template = 'mailer/reset.request.html.twig';
         $this->templateParams = [
-            'url' => $this->router->generate('reset_password', ['token' => $token])
+            'url' => $this->router->generate('reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL)
         ];
 
         return $this->send();
