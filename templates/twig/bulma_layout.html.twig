@@ -1,0 +1,58 @@
+{%- block submit_widget -%}
+    {% set type = type|default('submit') %}
+    {% set additional_button = additional_button|default({}) %}
+    <div class="field{% if 0 < additional_button|length %} is-grouped{% endif %}">
+        <div class="control">
+            {{ block('button_widget') }}
+        </div>
+        {% if 0 < additional_button|length %}
+            <div class="control">
+                <{{ additional_button.type }} {% if null != additional_button.link %}href="{{ additional_button.link }}"{% endif %} class="{{ ('button ' ~ additional_button.class)|trim }}">
+                    {{ additional_button.label }}
+                </{{ additional_button.type }}>
+            </div>
+        {% endif %}
+    </div>
+{%- endblock -%}
+
+{%- block form_errors -%}
+    {%- if 0 < errors|length -%}
+        <p class="help is-danger">
+            {{ errors[0].message }}
+        </p>
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block form_row -%}
+    {% set label_attr = label_attr|merge({class: label_attr.class|default('') ~ ' label is-small'}) %}
+    {% set attr = attr|merge({class: 'input ' ~ attr.class|default('')}) %}
+    <div class="field">
+        {%- if form.vars.block_prefixes[1] in ['radio', 'checkbox'] or ('choice' == form.vars.block_prefixes[1] and form.vars.expanded) -%}
+            <div class="control">
+                {%- if 'choice' == form.vars.block_prefixes[1] -%}
+                    {%- for choice in form.vars.choices -%}
+                        <label class="{{ form.vars.multiple ? 'checkbox' : 'radio' }}">
+                            {{- form_widget(choice) -}}
+                        </label>
+                    {%- endfor -%}
+                {%- else -%}
+                    <label class="{{ form.vars.block_prefixes[1] }}" for="{{ form.vars.id }}">
+                        {{- form_widget(form) -}}
+                    </label>
+                {%- endif -%}
+            </div>
+        {%- else -%}
+            {{- form_label(form, '', {label_attr: label_attr}) -}}
+            <div class="control">
+                {%- if 'choice' == form.vars.block_prefixes[1] -%}
+                    <div class="select">
+                        {{- form_widget(form) -}}
+                    </div>
+                {%- else -%}
+                    {{- form_widget(form) -}}
+                {%- endif -%}
+            </div>
+            {{- form_errors(form) -}}
+        {%- endif -%}
+    </div>
+{%- endblock -%}
