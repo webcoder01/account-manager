@@ -33,11 +33,13 @@
                     {%- for choice in form.vars.choices -%}
                         <label class="{{ form.vars.multiple ? 'checkbox' : 'radio' }}">
                             {{- form_widget(choice) -}}
+                            {{- choice.label -}}
                         </label>
                     {%- endfor -%}
                 {%- else -%}
                     <label class="{{ form.vars.block_prefixes[1] }}" for="{{ form.vars.id }}">
                         {{- form_widget(form) -}}
+                        {{- form.vars.label -}}
                     </label>
                 {%- endif -%}
             </div>
