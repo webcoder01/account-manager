@@ -6,21 +6,7 @@
     <div class="columns is-mobile is-centered">
         <div class="column is-half-desktop">
             <div class="box">
-                {{ form_start(form) }}
-
-                {{ form_row(form.emailCanonical) }}
-                {{ form_row(form.password) }}
-                {{ form_row(form.save) }}
-{#                <div class="field is-grouped">#}
-{#                    <p class="control">#}
-{#                        <button class="button is-primary">Connexion</button>#}
-{#                    </p>#}
-{#                    <p class="control">#}
-{#                        <a href="{{ path('reset_request') }}" class="button is-text">Mot de passe oublié ?</a>#}
-{#                    </p>#}
-{#                </div>#}
-
-                {{ form_end(form) }}
+                {{ form(form) }}
             </div>
         </div>
     </div>
