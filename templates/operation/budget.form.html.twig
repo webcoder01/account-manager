@@ -1,12 +1,4 @@
-{% set navigation = app.session.get(constant('App\\Model\\Session::NAVIGATION_ACCOUNT')) %}
-
-{{ form_start(form) }}
-{{ form_row(form.labelName) }}
-{{ form_row(form.amount) }}
-{{ form_row(form.isEstimated) }}
-{{ form_row(form.idRefTransactionType) }}
-{{ form_row(form.save) }}
-{{ form_end(form) }}
+{{ form(form) }}
 
 {#<div class="field is-grouped">#}
 {#    <p class="control">#}
