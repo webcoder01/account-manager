@@ -14,12 +14,14 @@ class BulmaSubmitType extends AbstractType implements SubmitButtonTypeInterface
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['additional_button'] = $options['additional_button'];
+        $view->vars['is_centered'] = $options['is_centered'];
     }
     
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'additional_button' => [],
+            'is_centered' => false,
         ]);
     }
 
@@ -57,6 +59,6 @@ class BulmaSubmitType extends AbstractType implements SubmitButtonTypeInterface
      */
     public static function addClass(string $class): string
     {
-        return 'button ' . $class;
+        return 'button is-rounded ' . $class;
     }
 }

@@ -1,3 +1,5 @@
+require('../css/login.scss');
+
 const $login = document.querySelector('.login-input');
 if(null !== $login)
 {

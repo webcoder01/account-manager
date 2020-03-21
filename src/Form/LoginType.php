@@ -38,9 +38,9 @@ class LoginType extends AbstractType
                 'label' => 'Mot de passe',
             ))
             ->add('save', BulmaSubmitType::class, [
-                'attr' => ['class' => BulmaSubmitType::addClass('is-primary')],
+                'attr' => ['class' => BulmaSubmitType::addClass('is-primary is-medium')],
                 'label' => 'Connexion',
-                'additional_button' => BulmaSubmitType::getNewButton('Mot de passe oublié ?', 'is-text', $this->router->generate('reset_request')),
+                'is_centered' => true,
             ])
         ;
     }
