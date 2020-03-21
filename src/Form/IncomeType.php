@@ -3,20 +3,35 @@
 namespace App\Form;
 
 use App\Entity\Income;
+use App\Form\Type\BulmaSubmitType;
+use App\Model\Session;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 
 class IncomeType extends AbstractType
 {
-    
+    private $dateAccount;
+    private $router;
+
+    public function __construct(SessionInterface $session, RouterInterface $router)
+    {
+        $this->dateAccount = $session->get(Session::NAVIGATION_ACCOUNT, new \DateTime());
+        $this->router = $router;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $newButtonRoute = $this->router->generate('account.view', ['year' => $this->dateAccount->format('Y'), 'month' => $this->dateAccount->format('n')]);
+
         $builder
             ->add('labelName', TextType::class, [
+                'label' => 'Libellé',
                 'attr' =>[
                     'class' => 'input',
                     'maxlength' => 100,
@@ -33,6 +48,7 @@ class IncomeType extends AbstractType
                 ],
             ])
             ->add('amount', TextType::class, [
+                'label' => 'Montant',
                 'attr' => [
                     'class' => 'input',
                     'maxlength' => 9,
@@ -44,6 +60,11 @@ class IncomeType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('save', BulmaSubmitType::class, [
+                'attr' => ['class' => BulmaSubmitType::addClass('is-primary')],
+                'label' => 'Enregistrer',
+                'additional_button' => $options['additional_button'] ? BulmaSubmitType::getNewButton('Annuler', 'is-text', $newButtonRoute) : [],
+            ])
         ;
     }
 
@@ -51,6 +72,7 @@ class IncomeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Income::class,
+            'additional_button' => true,
         ]);
     }
 }
