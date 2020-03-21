@@ -1,12 +1,16 @@
 <?php
 
-
 namespace App\Service;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
+/**
+ * Handle emails with ease
+ *
+ * @package App\Service
+ */
 class Mailer
 {
     private $mailer;
@@ -36,7 +40,7 @@ class Mailer
      */
     public function sendLog(string $message)
     {
-        $this->subject = 'Log Money Manager';
+        $this->subject = 'PROJECT LOG : Money Manager';
         $this->from = getenv('MAILER_EMAIL');
         $this->to = getenv('MAILER_EMAIL');
         $this->template = 'mailer/log.html.twig';
