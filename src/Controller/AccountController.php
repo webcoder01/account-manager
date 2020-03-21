@@ -68,16 +68,16 @@ class AccountController extends AbstractController
 
         // Add a new transaction
         $newTransaction = OperationData::createEntity(OperationData::TRANSACTION_TYPE, $account);
-        $transactionForm = $this->createForm(TransactionType::class, $newTransaction);
+        $transactionForm = $this->createForm(TransactionType::class, $newTransaction, ['additional_button' => false]);
         
         // Add a new income
         $newIncome = OperationData::createEntity(OperationData::INCOME_TYPE, $account);
         $newIncome->setActionDate($dateAsked);
-        $incomeForm = $this->createForm(IncomeType::class, $newIncome);
+        $incomeForm = $this->createForm(IncomeType::class, $newIncome, ['additional_button' => false]);
         
         // Add a new budget
         $newBudget = OperationData::createEntity(OperationData::BUDGET_TYPE, $account);
-        $budgetForm = $this->createForm(BudgetType::class, $newBudget);
+        $budgetForm = $this->createForm(BudgetType::class, $newBudget, ['additional_button' => false]);
         
         if($request->isMethod('post'))
         {

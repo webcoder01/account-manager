@@ -2,5 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'twig/bulma_layout.html.twig'
     globals:
         titleEmail: 'Support %env(APP_OWNER)%'
