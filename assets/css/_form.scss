@@ -7,3 +7,12 @@ $input-focus-border-color: hsl(0, 0%, 21%);
 .submit-field {
     margin-top: 4em;
 }
+
+.select select {
+    border-color: $input-background-color !important;
+    box-shadow: none !important;
+
+    &:focus {
+        border-color: $input-focus-border-color !important;
+    }
+}

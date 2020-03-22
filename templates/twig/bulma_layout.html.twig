@@ -57,7 +57,7 @@
             {{- form_label(form, '', {label_attr: label_attr}) -}}
             <div class="control">
                 {%- if 'choice' == form.vars.block_prefixes[1] -%}
-                    <div class="select is-rounded">
+                    <div class="select is-rounded is-primary">
                         {{- form_widget(form, {attr: attr}) -}}
                     </div>
                 {%- else -%}
