@@ -6,11 +6,11 @@ use App\Entity\Budget;
 use App\Form\Type\BulmaSubmitType;
 use App\Model\Session;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -56,10 +56,11 @@ class BudgetType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('isEstimated', CheckboxType::class, [
+            ->add('isEstimated', ChoiceType::class, [
+                'choices' => ['Oui' => true, 'Non' => false],
                 'label' => 'Budget estimé',
-                'value' => false,
-                'required' => false,
+                'data' => false,
+                'placeholder' => false,
             ])
             ->add('idRefTransactionType', RefTransactionType::class, [
                 'label' => 'Type',
