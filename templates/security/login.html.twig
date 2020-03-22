@@ -8,7 +8,13 @@
 
 {% block body %}
     <div class="columns is-mobile is-centered">
-        <div class="column is-half-tablet is-4-fullhd">
+        <div class="column is-half-tablet is-4-fullhd form-container">
+            {% if null != error %}
+                <p class="error-login is-size-7 has-text-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ error.message|trans({}, 'security') }}
+                </p>
+            {% endif %}
             {{ form(form) }}
         </div>
     </div>
