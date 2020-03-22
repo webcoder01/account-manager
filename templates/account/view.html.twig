@@ -14,7 +14,7 @@
         <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>
         <span class="tag is-dark account-info-tag">
             <span>Reste</span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;
-            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} )
+            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} &euro; )
             {% if 0 > (amountLeft.without_budget | round) %}
                 <span class="fas fa-exclamation-triangle has-text-danger"></span>
             {% endif %}
