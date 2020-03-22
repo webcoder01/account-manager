@@ -44,9 +44,9 @@
     <div class="columns">
         <div class="column">
             <section class="box">
-                <h2 class="subtitle">Opérations</h2>
+                <h2 class="subtitle">Mouvements</h2>
                 
-                <div id="op-list-action" class="tabs is-boxed">
+                <div id="op-list-action" class="tabs">
                     <ul>
                         <li class="is-active">
                             <a data-target="#op-list-transaction">Dépenses</a>
@@ -54,11 +54,9 @@
                         <li>
                             <a data-target="#op-list-income">Revenus</a>
                         </li>
-                        {# Touch devices #}
-                        <li class="is-hidden-desktop">
+                        <li>
                             <a data-target="#op-list-budget">Budget</a>
                         </li>
-                        {# /Touch devices #}
                     </ul>
                 </div>
                 
@@ -70,7 +68,7 @@
                     {% include 'operation/view.html.twig' with {operations: incomes, isTransaction: false} only %}
                 </div>
                 
-                <div class="op-target list-target is-hidden-desktop" id="op-list-budget">
+                <div class="op-target list-target" id="op-list-budget">
                     {% include 'operation/view.html.twig' with {operations: budgets, isBudget: true} only %}
                 </div>
             </section>
@@ -79,9 +77,9 @@
         {# Desktop #}
         <div class="column is-hidden-touch">
             <section class="box">
-                <h2 class="subtitle">Nouvelle opération</h2>
+                <h2 class="subtitle">Nouveau mouvement</h2>
                 
-                <div id="op-form-action" class="tabs is-boxed">
+                <div id="op-form-action" class="tabs">
                     <ul>
                         <li class="is-active">
                             <a data-target="#op-form-transaction">Dépense</a>
@@ -89,30 +87,15 @@
                         <li>
                             <a data-target="#op-form-income">Revenu</a>
                         </li>
+                        <li>
+                            <a data-target="#op-form-budget">Budget</a>
+                        </li>
                     </ul>
                 </div>
                 
                 <div class="op-target form-target is-active" id="op-form-transaction">{{ include('operation/transaction.form.html.twig', {form: transactionForm}) }}</div>
                 <div class="op-target form-target" id="op-form-income">{{ include('operation/income.form.html.twig', {form: incomeForm}) }}</div>
-            </section>
-
-            <section class="box">
-                <h2 class="subtitle">Budget</h2>
-                <div id="op-budget-action" class="tabs is-boxed">
-                    <ul>
-                        <li class="is-active">
-                            <a data-target="#op-mixed-budget-list">Liste</a>
-                        </li>
-                        <li>
-                            <a data-target="#op-mixed-budget-form">Formulaire</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="op-target budget-target is-active" id="op-mixed-budget-list">
-                    {% include 'operation/view.html.twig' with {operations: budgets, isBudget: true} only %}
-                </div>
-                <div class="op-target budget-target" id="op-mixed-budget-form">{{ include('operation/budget.form.html.twig', {form: budgetForm}) }}</div>
+                <div class="op-target form-target" id="op-form-budget">{{ include('operation/budget.form.html.twig', {form: budgetForm}) }}</div>
             </section>
         </div>
         {# /Desktop #}

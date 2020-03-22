@@ -39,7 +39,7 @@
     {% for trans in operations %}
         <div class="transaction columns is-mobile">
             {% if isTransaction %}
-                <div class="column is-10">
+                <div class="column is-9">
                     <div class="columns is-mobile">
                         <div class="column is-half">
                             <p class="is-size-7">
@@ -71,21 +71,23 @@
     <div class="transaction-list">
         {% for transEnabled in operations.enabled %}
             <div class="transaction columns is-mobile">
-                <div class="column is-1">
-                    {% if transEnabled.isPaid %}
-                        <i class="fas fa-check has-text-grey-light"></i>
-                    {% endif %}
-                </div>
-                <div class="column is-7">
-                    <p class="is-size-7">
-                        <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}" class="link">{{ transEnabled.labelName }}</a>
-                    </p>
-                    <p>{{ transEnabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                <div class="column is-9">
+                    <div class="columns is-mobile">
+                        <div class="column is-half">
+                            <p class="is-size-7">
+                                <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}" class="link">{{ transEnabled.labelName }}</a>
+                            </p>
+                            <p>{{ transEnabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                        <div class="column">
+                            <span class="tag is-info is-pulled-right">{{ transEnabled.idRefTransactionType.labelName }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="column">
                     {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
                     {% set budgetStatus = constant(budgetStatusKey ~ 'STATUT_DISABLE') %}
-                    <a href="{{ path('budget.manage', {id: transEnabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-danger">
+                    <a href="{{ path('budget.manage', {id: transEnabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-danger is-small is-rounded">
                         Désactiver
                     </a>
                 </div>
@@ -108,7 +110,7 @@
                 <div class="column">
                     {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
                     {% set budgetStatus = constant(budgetStatusKey ~ 'STATUT_ENABLE') %}
-                    <a href="{{ path('budget.manage', {id: transDisabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-success">
+                    <a href="{{ path('budget.manage', {id: transDisabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-success is-small is-rounded">
                         Activer
                     </a>
                 </div>
