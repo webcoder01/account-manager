@@ -3,7 +3,7 @@
     {% set additional_button = additional_button|default({}) %}
     {% set centered_class = is_centered ? 'is-grouped-centered' : '' %}
 
-    <div class="field is-grouped {{ centered_class }}">
+    <div class="field submit-field is-grouped {{ centered_class }}">
         <div class="control">
             {{ block('button_widget') }}
         </div>
