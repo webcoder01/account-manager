@@ -35,7 +35,6 @@ class BudgetType extends AbstractType
             ->add('labelName', TextType::class, [
                 'label' => 'Libellé',
                 'attr' => [
-                    'class' => 'input',
                     'maxlength' => 100,
                 ],
                 'constraints' => [
@@ -48,7 +47,6 @@ class BudgetType extends AbstractType
             ->add('amount', TextType::class, [
                 'label' => 'Montant',
                 'attr' => [
-                    'class' => 'input',
                     'maxlength' => 9,
                 ],
                 'constraints' => [

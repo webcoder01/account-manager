@@ -17,7 +17,6 @@ class ResetRequestType extends AbstractType
             ->add('email', TextType::class, [
                 'label' => 'Saisissez votre email',
                 'attr' => [
-                    'class' => 'input',
                     'maxlength' => 180,
                 ],
                 'required' => true,

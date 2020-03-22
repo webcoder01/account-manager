@@ -19,7 +19,6 @@ class ResetPasswordType extends AbstractType
                 'invalid_message' => 'Les deux mots de passe doivent être identiques',
                 'options' => [
                     'attr' => [
-                        'class' => 'input',
                         'maxlength' => 100,
                     ]
                 ]

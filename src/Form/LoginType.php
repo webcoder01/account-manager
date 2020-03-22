@@ -25,15 +25,12 @@ class LoginType extends AbstractType
         $builder
             ->add('emailCanonical', TextType::class, array(
                 'attr' => array(
-                    'class' => 'input login-input',
+                    'class' => 'login-input',
                 ),
                 'required' => true,
                 'label' => 'Email',
             ))
             ->add('password', PasswordType::class, array(
-                'attr' => array(
-                    'class' => 'input',
-                ),
                 'required' => true,
                 'label' => 'Mot de passe',
             ))
