@@ -39,7 +39,6 @@
 
 {%- block form_row -%}
     {% set label_attr = label_attr|merge({class: label_attr.class|default('') ~ ' label is-small'}) %}
-    {% set attr = attr|merge({class: 'input is-rounded ' ~ attr.class|default('')}) %}
     <div class="field">
         {%- if form.vars.block_prefixes[1] in ['radio', 'checkbox'] or ('choice' == form.vars.block_prefixes[1] and form.vars.expanded) -%}
             <div class="control">
@@ -61,10 +60,11 @@
             {{- form_label(form, '', {label_attr: label_attr}) -}}
             <div class="control">
                 {%- if 'choice' == form.vars.block_prefixes[1] -%}
-                    <div class="select">
+                    <div class="select is-rounded">
                         {{- form_widget(form, {attr: attr}) -}}
                     </div>
                 {%- else -%}
+                    {% set attr = attr|merge({class: ('input is-rounded ' ~ attr.class|default(''))|trim}) %}
                     {{- form_widget(form, {attr: attr}) -}}
                 {%- endif -%}
             </div>
