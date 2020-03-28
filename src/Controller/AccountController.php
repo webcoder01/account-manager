@@ -21,10 +21,12 @@ class AccountController extends AbstractController
 {
     /**
      * Get the view of an account
+     *
      * @param Request $request
      * @param $id
      * @param $year
      * @param $month
+     *
      * @return Response
      * @throws \Exception
      */
@@ -93,7 +95,7 @@ class AccountController extends AbstractController
             {
                 $entity = $transactionForm->isSubmitted() ? $newTransaction : ($incomeForm->isSubmitted() ? $newIncome : $newBudget);
                 $em->persist($entity);
-                $em->flush($entity);
+                $em->flush();
 
                 return $this->redirectToRoute($request->get('_route'), [
                     'year' => $dateAsked->format('Y'),
