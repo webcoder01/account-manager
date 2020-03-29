@@ -20,10 +20,12 @@ class DateManager
     
     /**
      * Return days for options of select input
+     *
      * @param \DateTime $date
-     * @return string
+     *
+     * @return array
      */
-    public static function getDayOptions(\DateTime $date)
+    public static function getDayOptions(\DateTime $date): array
     {
         $days = [];
         $string = $date->format('Y-m');

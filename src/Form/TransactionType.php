@@ -19,7 +19,14 @@ use App\Form\Type\RefTransactionType;
 
 class TransactionType extends AbstractType
 {
+    /**
+     * @var \DateTime
+     */
     private $dateAccount;
+
+    /**
+     * @var RouterInterface
+     */
     private $router;
 
     public function __construct(SessionInterface $session, RouterInterface $router)
