@@ -43,7 +43,10 @@
                         <div class="columns is-mobile">
                             <div class="column is-half">
                                 <p class="is-size-7">
-                                    <a href="{{ path('operation.edit', {type: 'transaction', id: trans.id}) }}" class="link">{{ trans.labelName }}</a>
+                                    <a href="{{ path('operation.edit', {type: 'transaction', id: trans.id}) }}" class="link">
+                                        {{ trans.labelName }}
+                                        <span class="fas fa-link"></span>
+                                    </a>
                                 </p>
                                 <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
                             </div>
@@ -58,7 +61,10 @@
                 {% else %}
                     <div class="column">
                         <p class="is-size-7">
-                            <a href="{{ path('operation.edit', {type: 'income', id: trans.id}) }}" class="link">{{ trans.labelName }}</a>
+                            <a href="{{ path('operation.edit', {type: 'income', id: trans.id}) }}" class="link">
+                                {{ trans.labelName }}
+                                <span class="fas fa-link"></span>
+                            </a>
                         </p>
                         <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
                     </div>
@@ -71,11 +77,21 @@
     <div class="transaction-list">
         {% for transEnabled in operations.enabled %}
             <div class="transaction columns is-mobile">
-                <div class="column is-9">
+                <div class="column is-1">
+                    {% if transEnabled.isPaid %}
+                        <span class="fas fa-star flag-paid"></span>
+                    {% else %}
+                        <span class="fas fa-star has-text-grey-light"></span>
+                    {% endif %}
+                </div>
+                <div class="column is-8">
                     <div class="columns is-mobile">
                         <div class="column is-half">
                             <p class="is-size-7">
-                                <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}" class="link">{{ transEnabled.labelName }}</a>
+                                <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}" class="link">
+                                    {{ transEnabled.labelName }}
+                                    <span class="fas fa-link"></span>
+                                </a>
                             </p>
                             <p>{{ transEnabled.amount | number_format(2, ',', ' ') }} &euro;</p>
                         </div>
@@ -96,11 +112,21 @@
 
         {% for transDisabled in operations.disabled %}
             <div class="transaction columns is-mobile">
-                <div class="column is-9">
+                <div class="column is-1 is-trans-paid">
+                    {% if transDisabled.isPaid %}
+                        <span class="fas fa-star flag-paid"></span>
+                    {% else %}
+                        <span class="fas fa-star has-text-grey-light"></span>
+                    {% endif %}
+                </div>
+                <div class="column is-8">
                     <div class="columns is-mobile">
                         <div class="column is-half">
                             <p class="is-size-7">
-                                <a href="{{ path('operation.edit', {type: 'budget', id: transDisabled.id}) }}" class="link">{{ transDisabled.labelName }}</a>
+                                <a href="{{ path('operation.edit', {type: 'budget', id: transDisabled.id}) }}" class="link">
+                                    {{ transDisabled.labelName }}
+                                    <span class="fas fa-link"></span>
+                                </a>
                             </p>
                             <p>{{ transDisabled.amount | number_format(2, ',', ' ') }} &euro;</p>
                         </div>

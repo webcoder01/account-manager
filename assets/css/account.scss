@@ -1,60 +1,58 @@
 @import '../../node_modules/bulma/sass/utilities/initial-variables';
 @import "colors";
 
-.account-info-tag
-{
-    & > span
-    {
+.account-info-tag {
+    & > span {
         text-decoration: underline;
         margin-right: 0.6em;
     }
-    
-    .fa-exclamation-triangle
-    {
+
+    .fa-exclamation-triangle {
         margin-left: 0.5em;
     }
 }
 
-.budget-button
-{
+.budget-button {
     margin-left: 1em;
 }
 
-.notification, .transaction-list
-{
+.notification, .transaction-list {
     margin-top: 2em;
 }
 
-#month-navigation
-{
+#month-navigation {
     margin-top: 1em;
-    
-    & > div:nth-child(2)
-    {
+
+    & > div:nth-child(2) {
         text-align: center;
     }
 
-    & > div:last-child
-    {
+    & > div:last-child {
         text-align: right;
     }
 }
 
-.transaction
-{
-    &:hover
-    {
-        cursor: pointer;
-        background-color: $white-ter;
-    }
-}
+//.transaction
+//{
+//    &:hover
+//    {
+//        cursor: pointer;
+//        background-color: $white-ter;
+//    }
+//}
 
-.op-target:not(.is-active)
-{
+.op-target:not(.is-active) {
     display: none;
 }
 
-.link
-{
+.link {
     color: $grey;
+
+    span {
+        margin-left: 0.5em;
+    }
+}
+
+.flag-paid {
+    color: #FFB643;
 }
