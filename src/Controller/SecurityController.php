@@ -56,6 +56,7 @@ class SecurityController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $user = new Usersite();
         $form = $this->createForm(ResetRequestType::class, $user);
+        $templateParams = ['form' => $form->createView()];
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -66,38 +67,34 @@ class SecurityController extends AbstractController
                     'emailCanonical' => strtolower($user->getEmail()),
                 ]);
 
-                if (null === $userFound) {
-                    $this->addFlash(Constants::FLASH_WARNING, 'L\'email n\'ai rattaché à aucun compte');
-                    return $this->redirectToRoute($request->get('_route'));
-                }
-
                 // Check if a reset request already exists from the user
-                $oldRequest = $em->getRepository('App:ResetRequest')->findOneBy(['idUsersite' => $userFound]);
-                if (null !== $oldRequest) {
-                    $this->addFlash(Constants::FLASH_WARNING, 'Une demande a déjà été faite avec cet email');
-                    return $this->redirectToRoute($request->get('_route'));
+                $oldRequest = null;
+                if(null !== $userFound) {
+                    $oldRequest = $em->getRepository('App:ResetRequest')->findOneBy(['idUsersite' => $userFound]);
                 }
 
-                // Create a new request
-                $resetRequest = new ResetRequest();
-                $resetRequest->setTokenRequest($security->getResetPasswordToken($userFound));
-                $resetRequest->setIdUsersite($userFound);
-                $em->persist($resetRequest);
-                $em->flush();
+                if(null === $oldRequest && null !== $userFound) {
+                    // Create a new request
+                    $resetRequest = new ResetRequest();
+                    $resetRequest->setTokenRequest($security->getResetPasswordToken($userFound));
+                    $resetRequest->setIdUsersite($userFound);
+                    $em->persist($resetRequest);
+                    $em->flush();
 
-                if ($mailer->sendResetRequest($userFound->getEmail(), $resetRequest->getTokenRequest())) {
-                    $this->addFlash(Constants::FLASH_SUCCESS, 'Un email a été envoyé à l\'adresse email indiquée');
-                } else {
-                    $this->addFlash(Constants::FLASH_WARNING, 'L\'email n\'a pas pu être envoyé');
+                    if ($mailer->sendResetRequest($userFound->getEmail(), $resetRequest->getTokenRequest())) {
+                        $this->addFlash(Constants::FLASH_SUCCESS, 'Un email a été envoyé à l\'adresse email indiquée');
+                    } else {
+                        $this->addFlash(Constants::FLASH_WARNING, 'L\'email n\'a pas pu être envoyé');
+                    }
+
+                    return $this->redirectToRoute('login');
                 }
 
-                return $this->redirectToRoute('login');
+                $templateParams['error'] = null !== $userFound ? 'Une demande a déjà été faite avec cet email' : 'L\'email n\'ai rattaché à aucun compte';
             }
         }
 
-        return $this->render('security/reset.request.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('security/reset.request.html.twig', $templateParams);
     }
 
     /**
