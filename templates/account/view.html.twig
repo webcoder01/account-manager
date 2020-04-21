@@ -9,34 +9,64 @@
 {% block body %}
     
     {# Display aditionnal informations with tags #}
-    <section>
-        <span class="tag is-dark account-info-tag"><span>Compte</span> {{ account.labelName }}</span>
-        <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>
-        <span class="tag is-dark account-info-tag">
-            <span>Reste</span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;
-            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} &euro; )
-            {% if 0 > (amountLeft.without_budget | round) %}
-                <span class="fas fa-exclamation-triangle has-text-danger"></span>
-            {% endif %}
-        </span>
-    </section>
+{#    <section>#}
+{#        <span class="tag is-dark account-info-tag"><span>Compte</span> {{ account.labelName }}</span>#}
+{#        <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>#}
+{#        <span class="tag is-dark account-info-tag">#}
+{#            <span>Reste</span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;#}
+{#            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} &euro; )#}
+{#            {% if 0 > (amountLeft.without_budget | round) %}#}
+{#                <span class="fas fa-exclamation-triangle has-text-danger"></span>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </section>#}
 
-    {# Navigation by month #}
-    <section id="month-navigation" class="columns is-mobile">
+    <section class="columns">
         <div class="column">
-            <a href="{{ path('account.view', {id: account.id, year: (date.previous | date('Y')), month: (date.previous | date('n'))}) }}">
-                <span id="previous-month" class="fas fa-chevron-left"></span>
-            </a>
-        </div>
+            {% set months = constant('App\\Service\\DateManager::MONTHS') %}
+            {% set year = date | date('Y') %}
+            <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu1">
+                        <span>{{ (('core.month.' ~ (date | date('F'))) | lower) | trans }}</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu1" role="menu">
+                    <div class="dropdown-content">
+                        {% for month in months %}
+                            <a href="{{ path('account.view', {'year': year, 'month': loop.index, 'id': account.id}) }}" class="dropdown-item">
+                                {{ month }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
-        <div class="column is-10">
-            <div>{{ (('core.month.' ~ (date.now | date('F'))) | lower) | trans }} {{ date.now | date('Y') }}</div>
-        </div>
-
-        <div class="column">
-            <a href="{{ path('account.view', {id: account.id, year: (date.next | date('Y')), month: (date.next | date('n'))}) }}">
-                <span id="next-month" class="fas fa-chevron-right"></span>
-            </a>
+            <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu1">
+                        <span>{{ account.labelName }}</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu1" role="menu">
+                    <div class="dropdown-content">
+                        <div class="dropdown-item">
+                            <p><span class="amount-info-title">Dépenses : </span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <div class="dropdown-item">
+                            <p><span class="amount-info-title">Reste actuel : </span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;</p>
+                            <p><span class="amount-info-title">Reste réel : </span> {{ amountLeft.with_budget | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     
