@@ -4,16 +4,16 @@
     {% set centered_class = is_centered ? 'is-grouped-centered' : 'is-grouped-right' %}
 
     <div class="field submit-field is-grouped {{ centered_class }}">
+        {% if 0 < additional_button|length %}
+            <div class="control">
+            <{{ additional_button.type }} {% if null != additional_button.link %}href="{{ additional_button.link }}"{% endif %} class="{{ ('button is-rounded ' ~ additional_button.class)|trim }}">
+            {{ additional_button.label }}
+            </{{ additional_button.type }}>
+            </div>
+        {% endif %}
         <div class="control">
             {{ block('button_widget') }}
         </div>
-        {% if 0 < additional_button|length %}
-            <div class="control">
-                <{{ additional_button.type }} {% if null != additional_button.link %}href="{{ additional_button.link }}"{% endif %} class="{{ ('button is-rounded ' ~ additional_button.class)|trim }}">
-                    {{ additional_button.label }}
-                </{{ additional_button.type }}>
-            </div>
-        {% endif %}
     </div>
 {%- endblock -%}
 
@@ -36,6 +36,9 @@
 
 {%- block form_row -%}
     {% set label_attr = label_attr|merge({class: label_attr.class|default('') ~ ' label is-small'}) %}
+    {% if 0 < form.vars.errors|length %}
+        {% set attr = attr|merge({class: attr.class|default('') ~ ' is-danger'}) %}
+    {% endif %}
     <div class="field">
         {%- if form.vars.block_prefixes[1] in ['radio', 'checkbox'] or ('choice' == form.vars.block_prefixes[1] and form.vars.expanded) -%}
             <div class="control">
@@ -57,7 +60,7 @@
             {{- form_label(form, '', {label_attr: label_attr}) -}}
             <div class="control">
                 {%- if 'choice' == form.vars.block_prefixes[1] -%}
-                    <div class="select is-rounded is-primary">
+                    <div class="select is-rounded is-primary{{ 0 < form.vars.errors|length ? ' is-danger' }}">
                         {{- form_widget(form, {attr: attr}) -}}
                     </div>
                 {%- else -%}
