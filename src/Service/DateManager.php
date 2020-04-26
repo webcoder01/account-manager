@@ -4,14 +4,26 @@ namespace App\Service;
 
 class DateManager
 {
-    public static function getPreviousMonthFromDate(\DateTime $date) : \DateTime
+    const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    /**
+     * @param \DateTime $date
+     *
+     * @return \DateTime
+     */
+    public static function getPreviousMonthFromDate(\DateTime $date): \DateTime
     {
         $new = clone $date;
         
         return $new->modify('-1 month');
     }
-    
-    public static function getNextMonthFromDate(\DateTime $date) : \DateTime
+
+    /**
+     * @param \DateTime $date
+     *
+     * @return \DateTime
+     */
+    public static function getNextMonthFromDate(\DateTime $date): \DateTime
     {
         $new = clone $date;
         

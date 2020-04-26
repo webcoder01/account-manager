@@ -112,11 +112,7 @@ class AccountController extends AbstractController
             'budgets' => $budgets,
             'totalAmount' => $totalAmount,
             'amountLeft' => $amountLeft,
-            'date' => [
-                'previous' => DateManager::getPreviousMonthFromDate($dateAsked),
-                'now' => $dateAsked,
-                'next' => DateManager::getNextMonthFromDate($dateAsked),
-            ],
+            'date' => $dateAsked,
             'transactionForm' => $transactionForm->createView(),
             'incomeForm' => $incomeForm->createView(),
             'budgetForm' => $budgetForm->createView(),
