@@ -1,7 +1,7 @@
 {%- block submit_widget -%}
     {% set type = type|default('submit') %}
     {% set additional_button = additional_button|default({}) %}
-    {% set centered_class = is_centered ? 'is-grouped-centered' : '' %}
+    {% set centered_class = is_centered ? 'is-grouped-centered' : 'is-grouped-right' %}
 
     <div class="field submit-field is-grouped {{ centered_class }}">
         <div class="control">
