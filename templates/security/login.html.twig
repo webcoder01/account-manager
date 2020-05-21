@@ -8,7 +8,7 @@
 
 {% block body %}
     <div class="columns is-mobile is-centered">
-        <div class="column is-half-tablet is-4-fullhd form-container">
+        <div class="column is-half-tablet is-4-fullhd form-mt">
             {% if null != error %}
                 {% include 'layout/error.action.html.twig' with {error: error.message|trans({}, 'security')} only %}
             {% endif %}
