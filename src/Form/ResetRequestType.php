@@ -23,6 +23,7 @@ class ResetRequestType extends AbstractType
             ])
             ->add('save', BulmaSubmitType::class, [
                 'label' => 'Envoyer',
+                'additional_button' => BulmaSubmitType::getNewButton('Annuler', 'is-text', 'login'),
                 'attr' => ['class' => BulmaSubmitType::addClass('is-primary')],
             ])
         ;
