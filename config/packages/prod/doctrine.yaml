@@ -1,4 +1,6 @@
 doctrine:
+    dbal:
+        dbname: money_manager
     orm:
         auto_generate_proxy_classes: false
         metadata_cache_driver:

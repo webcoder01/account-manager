@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         driver: 'pdo_pgsql'
-        server_version: '11.3'
+        server_version: '10.12'
         dbname: money_manager_dev
         host: 149.91.83.253
         port: 5432
