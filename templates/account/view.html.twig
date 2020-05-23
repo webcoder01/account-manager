@@ -9,34 +9,64 @@
 {% block body %}
     
     {# Display aditionnal informations with tags #}
-    <section>
-        <span class="tag is-dark account-info-tag"><span>Compte</span> {{ account.labelName }}</span>
-        <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>
-        <span class="tag is-dark account-info-tag">
-            <span>Reste</span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;
-            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} )
-            {% if 0 > (amountLeft.without_budget | round) %}
-                <span class="fas fa-exclamation-triangle has-text-danger"></span>
-            {% endif %}
-        </span>
-    </section>
+{#    <section>#}
+{#        <span class="tag is-dark account-info-tag"><span>Compte</span> {{ account.labelName }}</span>#}
+{#        <span class="tag is-dark account-info-tag"><span>Dépenses</span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</span>#}
+{#        <span class="tag is-dark account-info-tag">#}
+{#            <span>Reste</span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;#}
+{#            ( {{ amountLeft.with_budget | number_format(2, ',', ' ') }} &euro; )#}
+{#            {% if 0 > (amountLeft.without_budget | round) %}#}
+{#                <span class="fas fa-exclamation-triangle has-text-danger"></span>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </section>#}
 
-    {# Navigation by month #}
-    <section id="month-navigation" class="columns is-mobile">
+    <section class="columns">
         <div class="column">
-            <a href="{{ path('account.view', {id: account.id, year: (date.previous | date('Y')), month: (date.previous | date('n'))}) }}">
-                <span id="previous-month" class="fas fa-chevron-left"></span>
-            </a>
-        </div>
+            {% set months = constant('App\\Service\\DateManager::MONTHS') %}
+            {% set year = date | date('Y') %}
+            <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu1">
+                        <span>{{ (('core.month.' ~ (date | date('F'))) | lower) | trans }}</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu1" role="menu">
+                    <div class="dropdown-content">
+                        {% for month in months %}
+                            <a href="{{ path('account.view', {'year': year, 'month': loop.index, 'id': account.id}) }}" class="dropdown-item">
+                                {{ month }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
-        <div class="column is-10">
-            <div>{{ (('core.month.' ~ (date.now | date('F'))) | lower) | trans }} {{ date.now | date('Y') }}</div>
-        </div>
-
-        <div class="column">
-            <a href="{{ path('account.view', {id: account.id, year: (date.next | date('Y')), month: (date.next | date('n'))}) }}">
-                <span id="next-month" class="fas fa-chevron-right"></span>
-            </a>
+            <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu1">
+                        <span>{{ account.labelName }}</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu1" role="menu">
+                    <div class="dropdown-content">
+                        <div class="dropdown-item">
+                            <p><span class="amount-info-title">Dépenses : </span> {{ totalAmount | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <div class="dropdown-item">
+                            <p><span class="amount-info-title">Reste actuel : </span> {{ amountLeft.without_budget | number_format(2, ',', ' ') }} &euro;</p>
+                            <p><span class="amount-info-title">Reste réel : </span> {{ amountLeft.with_budget | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     
@@ -44,9 +74,9 @@
     <div class="columns">
         <div class="column">
             <section class="box">
-                <h2 class="subtitle">Opérations</h2>
+                <h2 class="subtitle">Mouvements</h2>
                 
-                <div id="op-list-action" class="tabs is-boxed">
+                <div id="op-list-action" class="tabs">
                     <ul>
                         <li class="is-active">
                             <a data-target="#op-list-transaction">Dépenses</a>
@@ -54,11 +84,9 @@
                         <li>
                             <a data-target="#op-list-income">Revenus</a>
                         </li>
-                        {# Touch devices #}
-                        <li class="is-hidden-desktop">
+                        <li>
                             <a data-target="#op-list-budget">Budget</a>
                         </li>
-                        {# /Touch devices #}
                     </ul>
                 </div>
                 
@@ -70,7 +98,7 @@
                     {% include 'operation/view.html.twig' with {operations: incomes, isTransaction: false} only %}
                 </div>
                 
-                <div class="op-target list-target is-hidden-desktop" id="op-list-budget">
+                <div class="op-target list-target" id="op-list-budget">
                     {% include 'operation/view.html.twig' with {operations: budgets, isBudget: true} only %}
                 </div>
             </section>
@@ -79,9 +107,9 @@
         {# Desktop #}
         <div class="column is-hidden-touch">
             <section class="box">
-                <h2 class="subtitle">Nouvelle opération</h2>
+                <h2 class="subtitle">Nouveau mouvement</h2>
                 
-                <div id="op-form-action" class="tabs is-boxed">
+                <div id="op-form-action" class="tabs">
                     <ul>
                         <li class="is-active">
                             <a data-target="#op-form-transaction">Dépense</a>
@@ -89,30 +117,15 @@
                         <li>
                             <a data-target="#op-form-income">Revenu</a>
                         </li>
+                        <li>
+                            <a data-target="#op-form-budget">Budget</a>
+                        </li>
                     </ul>
                 </div>
                 
                 <div class="op-target form-target is-active" id="op-form-transaction">{{ include('operation/transaction.form.html.twig', {form: transactionForm}) }}</div>
                 <div class="op-target form-target" id="op-form-income">{{ include('operation/income.form.html.twig', {form: incomeForm}) }}</div>
-            </section>
-
-            <section class="box">
-                <h2 class="subtitle">Budget</h2>
-                <div id="op-budget-action" class="tabs is-boxed">
-                    <ul>
-                        <li class="is-active">
-                            <a data-target="#op-mixed-budget-list">Liste</a>
-                        </li>
-                        <li>
-                            <a data-target="#op-mixed-budget-form">Formulaire</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="op-target budget-target is-active" id="op-mixed-budget-list">
-                    {% include 'operation/view.html.twig' with {operations: budgets, isBudget: true} only %}
-                </div>
-                <div class="op-target budget-target" id="op-mixed-budget-form">{{ include('operation/budget.form.html.twig', {form: budgetForm}) }}</div>
+                <div class="op-target form-target" id="op-form-budget">{{ include('operation/budget.form.html.twig', {form: budgetForm}) }}</div>
             </section>
         </div>
         {# /Desktop #}

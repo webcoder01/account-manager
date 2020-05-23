@@ -25,22 +25,19 @@ class LoginType extends AbstractType
         $builder
             ->add('emailCanonical', TextType::class, array(
                 'attr' => array(
-                    'class' => 'input login-input',
+                    'class' => 'login-input',
                 ),
                 'required' => true,
                 'label' => 'Email',
             ))
             ->add('password', PasswordType::class, array(
-                'attr' => array(
-                    'class' => 'input',
-                ),
                 'required' => true,
                 'label' => 'Mot de passe',
             ))
             ->add('save', BulmaSubmitType::class, [
-                'attr' => ['class' => BulmaSubmitType::addClass('is-primary')],
+                'attr' => ['class' => BulmaSubmitType::addClass('is-primary is-medium')],
                 'label' => 'Connexion',
-                'additional_button' => BulmaSubmitType::getNewButton('Mot de passe oublié ?', 'is-text', $this->router->generate('reset_request')),
+                'is_centered' => true,
             ])
         ;
     }

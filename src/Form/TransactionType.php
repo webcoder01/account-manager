@@ -19,7 +19,14 @@ use App\Form\Type\RefTransactionType;
 
 class TransactionType extends AbstractType
 {
+    /**
+     * @var \DateTime
+     */
     private $dateAccount;
+
+    /**
+     * @var RouterInterface
+     */
     private $router;
 
     public function __construct(SessionInterface $session, RouterInterface $router)
@@ -36,7 +43,6 @@ class TransactionType extends AbstractType
             ->add('labelName', TextType::class, [
                 'label' => 'Libellé',
                 'attr' =>[
-                    'class' => 'input',
                     'maxlength' => 100,
                 ],
                 'constraints' => [
@@ -53,7 +59,6 @@ class TransactionType extends AbstractType
             ->add('amount', TextType::class, [
                 'label' => 'Montant',
                 'attr' => [
-                    'class' => 'input',
                     'maxlength' => 9,
                 ],
                 'constraints' => [

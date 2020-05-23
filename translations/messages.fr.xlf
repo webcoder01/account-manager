@@ -25,6 +25,10 @@
         <source>account.no_items</source>
         <target>Vous n'avez pour le moment aucun compte enregistré</target>
       </trans-unit>
+      <trans-unit id="WuGBjZq" resname="account.delete_item">
+        <source>account.delete_item</source>
+        <target>Supprimer les sélections</target>
+      </trans-unit>
       <trans-unit id="7gXFN6S" resname="account.form.add">
         <source>account.form.add</source>
         <target>Ajouter</target>
@@ -32,6 +36,102 @@
       <trans-unit id="lP74czO" resname="account.form.label_name.placeholder">
         <source>account.form.label_name.placeholder</source>
         <target>Créez un compte</target>
+      </trans-unit>
+      <trans-unit id="XcS.w6y" resname="account.transaction.new">
+        <source>account.transaction.new</source>
+        <target>Nouvelle entrée</target>
+      </trans-unit>
+      <trans-unit id="gYxbYpT" resname="account.transaction.edit">
+        <source>account.transaction.edit</source>
+        <target>Editer</target>
+      </trans-unit>
+      <trans-unit id="QPE2juC" resname="account.transaction.delete">
+        <source>account.transaction.delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="1T84Yen" resname="account.transaction.no_items">
+        <source>account.transaction.no_items</source>
+        <target>Vous n'avez enregistré aucune opération sur ce compte</target>
+      </trans-unit>
+      <trans-unit id="qPCOV5U" resname="account.budget">
+        <source>account.budget</source>
+        <target>Budget</target>
+      </trans-unit>
+      <trans-unit id="D.tEDFp" resname="transaction.form.label_name.label">
+        <source>transaction.form.label_name.label</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="jD1Sl4f" resname="transaction.form.amount.label">
+        <source>transaction.form.amount.label</source>
+        <target>Montant</target>
+      </trans-unit>
+      <trans-unit id="UUlHtz7" resname="transaction.form.action_date.label">
+        <source>transaction.form.action_date.label</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="HSEqKSA" resname="transaction.form.id_ref_transaction_type.label">
+        <source>transaction.form.id_ref_transaction_type.label</source>
+        <target>Type d'opération</target>
+      </trans-unit>
+      <trans-unit id="erfece4" resname="transaction.form.submit.new">
+        <source>transaction.form.submit.new</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="FTqLTFx" resname="core.month.january">
+        <source>core.month.january</source>
+        <target>Janvier</target>
+      </trans-unit>
+      <trans-unit id="ouiveAE" resname="core.month.february">
+        <source>core.month.february</source>
+        <target>Février</target>
+      </trans-unit>
+      <trans-unit id="3UzZffz" resname="core.month.march">
+        <source>core.month.march</source>
+        <target>Mars</target>
+      </trans-unit>
+      <trans-unit id="OTHKyjm" resname="core.month.april">
+        <source>core.month.april</source>
+        <target>Avril</target>
+      </trans-unit>
+      <trans-unit id="ewhht.Z" resname="core.month.may">
+        <source>core.month.may</source>
+        <target>Mai</target>
+      </trans-unit>
+      <trans-unit id="hO7ormu" resname="core.month.june">
+        <source>core.month.june</source>
+        <target>Juin</target>
+      </trans-unit>
+      <trans-unit id="rmbOPT5" resname="core.month.july">
+        <source>core.month.july</source>
+        <target>Juillet</target>
+      </trans-unit>
+      <trans-unit id="9_fiK2." resname="core.month.august">
+        <source>core.month.august</source>
+        <target>Août</target>
+      </trans-unit>
+      <trans-unit id="9wTwvq6" resname="core.month.september">
+        <source>core.month.september</source>
+        <target>Septembre</target>
+      </trans-unit>
+      <trans-unit id="hCV.ycn" resname="core.month.october">
+        <source>core.month.october</source>
+        <target>Octobre</target>
+      </trans-unit>
+      <trans-unit id="nFtDx6b" resname="core.month.november">
+        <source>core.month.november</source>
+        <target>Novembre</target>
+      </trans-unit>
+      <trans-unit id="g1jsrl_" resname="core.month.december">
+        <source>core.month.december</source>
+        <target>Décembre</target>
+      </trans-unit>
+      <trans-unit id="XDSi0QE" resname="core.previous">
+        <source>core.previous</source>
+        <target>Précédent</target>
+      </trans-unit>
+      <trans-unit id="qgM_bX." resname="core.next">
+        <source>core.next</source>
+        <target>Suivant</target>
       </trans-unit>
       <trans-unit id="tuAV77Z" resname="security.login.submit">
         <source>security.login.submit</source>

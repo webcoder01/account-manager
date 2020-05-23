@@ -17,13 +17,13 @@ class ResetRequestType extends AbstractType
             ->add('email', TextType::class, [
                 'label' => 'Saisissez votre email',
                 'attr' => [
-                    'class' => 'input',
                     'maxlength' => 180,
                 ],
                 'required' => true,
             ])
             ->add('save', BulmaSubmitType::class, [
                 'label' => 'Envoyer',
+                'additional_button' => BulmaSubmitType::getNewButton('Annuler', 'is-text', 'login'),
                 'attr' => ['class' => BulmaSubmitType::addClass('is-primary')],
             ])
         ;
