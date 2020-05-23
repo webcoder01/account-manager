@@ -1,53 +1,13 @@
-{% set navigation = app.session.get(constant('App\\Model\\Session::NAVIGATION_ACCOUNT')) %}
-
 {{ form_start(form) }}
+{{ form_row(form.labelName) }}
+{{ form_row(form.amount) }}
+<div class="columns is-mobile">
+    <div class="column is-3-tablet">
+        {{ form_row(form.actionDate) }}
+    </div>
 
-<div class="field">
-    <label class="label is-small">Libellé</label>
-    <div class="control">
-        {{ form_widget(form.labelName) }}
+    <div class="column">
+        {{ form_row(form.idRefTransactionType) }}
     </div>
 </div>
-
-<div class="field">
-    <label class="label is-small">Montant</label>
-    <div class="control">
-        {{ form_widget(form.amount) }}
-    </div>
-</div>
-
-<div class="field">
-    <label class="label is-small">Date</label>
-    <div class="select">
-        {{ form_widget(form.actionDate) }}
-    </div>
-</div>
-
-<div class="field">
-    <label class="label is-small">Type</label>
-    <div class="select">
-        {{ form_widget(form.idRefTransactionType) }}
-    </div>
-</div>
-
-<div class="field is-grouped">
-    <p class="control">
-        <button class="button is-primary">
-            {{ id is defined and 0 < id ? 'Modifier' : 'Ajouter' }}
-        </button>
-    </p>
-    
-    {% if 'account.view' != app.request.get('_route') %}
-        <p class="control">
-            <a href="{{ path('account.view', {year: (navigation | date('Y')), month: (navigation | date('n'))}) }}" class="button is-text">Annuler</a>
-        </p>
-    {% endif %}
-    
-    {% if id is defined and 0 < id %}
-        <p class="control">
-            <a href="{{ path('operation.delete', {type: 'transaction', id: id}) }}" class="button is-danger">Supprimer</a>
-        </p>
-    {% endif %}
-</div>
-
 {{ form_end(form) }}

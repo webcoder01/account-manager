@@ -21,10 +21,12 @@ class AccountController extends AbstractController
 {
     /**
      * Get the view of an account
+     *
      * @param Request $request
      * @param $id
      * @param $year
      * @param $month
+     *
      * @return Response
      * @throws \Exception
      */
@@ -68,16 +70,16 @@ class AccountController extends AbstractController
 
         // Add a new transaction
         $newTransaction = OperationData::createEntity(OperationData::TRANSACTION_TYPE, $account);
-        $transactionForm = $this->createForm(TransactionType::class, $newTransaction);
+        $transactionForm = $this->createForm(TransactionType::class, $newTransaction, ['additional_button' => false]);
         
         // Add a new income
         $newIncome = OperationData::createEntity(OperationData::INCOME_TYPE, $account);
         $newIncome->setActionDate($dateAsked);
-        $incomeForm = $this->createForm(IncomeType::class, $newIncome);
+        $incomeForm = $this->createForm(IncomeType::class, $newIncome, ['additional_button' => false]);
         
         // Add a new budget
         $newBudget = OperationData::createEntity(OperationData::BUDGET_TYPE, $account);
-        $budgetForm = $this->createForm(BudgetType::class, $newBudget);
+        $budgetForm = $this->createForm(BudgetType::class, $newBudget, ['additional_button' => false]);
         
         if($request->isMethod('post'))
         {
@@ -93,7 +95,7 @@ class AccountController extends AbstractController
             {
                 $entity = $transactionForm->isSubmitted() ? $newTransaction : ($incomeForm->isSubmitted() ? $newIncome : $newBudget);
                 $em->persist($entity);
-                $em->flush($entity);
+                $em->flush();
 
                 return $this->redirectToRoute($request->get('_route'), [
                     'year' => $dateAsked->format('Y'),
@@ -110,11 +112,7 @@ class AccountController extends AbstractController
             'budgets' => $budgets,
             'totalAmount' => $totalAmount,
             'amountLeft' => $amountLeft,
-            'date' => [
-                'previous' => DateManager::getPreviousMonthFromDate($dateAsked),
-                'now' => $dateAsked,
-                'next' => DateManager::getNextMonthFromDate($dateAsked),
-            ],
+            'date' => $dateAsked,
             'transactionForm' => $transactionForm->createView(),
             'incomeForm' => $incomeForm->createView(),
             'budgetForm' => $budgetForm->createView(),

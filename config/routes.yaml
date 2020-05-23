@@ -12,6 +12,16 @@ logout:
     path: /user/logout
     methods: [GET]
 
+reset_request:
+    path: /user/reset
+    controller: App\Controller\SecurityController::resetRequest
+
+reset_password:
+    path: /user/reset/{token}
+    controller: App\Controller\SecurityController::resetPassword
+    requirements:
+        token: '[0-9A-Za-z]+'
+
 # Account
 account.view:
     path: /account/{year}/{month}/{id}

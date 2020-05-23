@@ -24,7 +24,7 @@
         {% if isTransaction %}
             Aucune opération trouvée pour ce mois-ci.
         {% else %}
-            Aucun gain trouvé pour ce mois-ci.
+            Aucun revenu trouvé pour ce mois-ci.
         {% endif %}
     </div>
     
@@ -36,35 +36,41 @@
 {% elseif not isBudget %}
 
     <div class="transaction-list">
-    {% for trans in operations %}
-        <div class="transaction columns is-mobile">
-            {% if isTransaction %}
-                <div class="column is-10">
-                    <div class="columns is-mobile">
-                        <div class="column is-half">
-                            <p class="is-size-7">
-                                <a href="{{ path('operation.edit', {type: 'transaction', id: trans.id}) }}" class="link">{{ trans.labelName }}</a>
-                            </p>
-                            <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
-                        </div>
-                        <div class="column">
-                            <span class="tag is-info is-pulled-right">{{ trans.idRefTransactionType.labelName }}</span>
+        {% for trans in operations %}
+            <div class="transaction columns is-mobile">
+                {% if isTransaction %}
+                    <div class="column is-9">
+                        <div class="columns is-mobile">
+                            <div class="column is-half">
+                                <p class="is-size-7">
+                                    <a href="{{ path('operation.edit', {type: 'transaction', id: trans.id}) }}" class="link">
+                                        {{ trans.labelName }}
+                                        <span class="fas fa-link"></span>
+                                    </a>
+                                </p>
+                                <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
+                            </div>
+                            <div class="column">
+                                <span class="tag is-info is-pulled-right">{{ trans.idRefTransactionType.labelName }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="column">
-                    <span class="has-text-grey-light is-pulled-right">{{ trans.actionDate | date('d') }}</span>
-                </div>
-            {% else %}
-                <div class="column">
-                    <p class="is-size-7">
-                        <a href="{{ path('operation.edit', {type: 'income', id: trans.id}) }}" class="link">{{ trans.labelName }}</a>
-                    </p>
-                    <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
-                </div>
-            {% endif %}
-        </div>
-    {% endfor %}
+                    <div class="column">
+                        <span class="has-text-grey-light is-pulled-right">{{ trans.actionDate | date('d') }}</span>
+                    </div>
+                {% else %}
+                    <div class="column">
+                        <p class="is-size-7">
+                            <a href="{{ path('operation.edit', {type: 'income', id: trans.id}) }}" class="link">
+                                {{ trans.labelName }}
+                                <span class="fas fa-link"></span>
+                            </a>
+                        </p>
+                        <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
     
 {% else %}
@@ -73,19 +79,31 @@
             <div class="transaction columns is-mobile">
                 <div class="column is-1">
                     {% if transEnabled.isPaid %}
-                        <i class="fas fa-check has-text-grey-light"></i>
+                        <span class="fas fa-star flag-paid"></span>
+                    {% else %}
+                        <span class="fas fa-star has-text-grey-light"></span>
                     {% endif %}
                 </div>
-                <div class="column is-7">
-                    <p class="is-size-7">
-                        <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}" class="link">{{ transEnabled.labelName }}</a>
-                    </p>
-                    <p>{{ transEnabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                <div class="column is-8">
+                    <div class="columns is-mobile">
+                        <div class="column is-half">
+                            <p class="is-size-7">
+                                <a href="{{ path('operation.edit', {type: 'budget', id: transEnabled.id}) }}" class="link">
+                                    {{ transEnabled.labelName }}
+                                    <span class="fas fa-link"></span>
+                                </a>
+                            </p>
+                            <p>{{ transEnabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                        <div class="column">
+                            <span class="tag is-info is-pulled-right">{{ transEnabled.idRefTransactionType.labelName }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="column">
                     {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
                     {% set budgetStatus = constant(budgetStatusKey ~ 'STATUT_DISABLE') %}
-                    <a href="{{ path('budget.manage', {id: transEnabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-danger">
+                    <a href="{{ path('budget.manage', {id: transEnabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-danger is-small is-rounded">
                         Désactiver
                     </a>
                 </div>
@@ -94,21 +112,33 @@
 
         {% for transDisabled in operations.disabled %}
             <div class="transaction columns is-mobile">
-                <div class="column is-1">
+                <div class="column is-1 is-trans-paid">
                     {% if transDisabled.isPaid %}
-                        <i class="fas fa-check has-text-grey-light"></i>
+                        <span class="fas fa-star flag-paid"></span>
+                    {% else %}
+                        <span class="fas fa-star has-text-grey-light"></span>
                     {% endif %}
                 </div>
-                <div class="column is-7">
-                    <p class="is-size-7">
-                        <a href="{{ path('operation.edit', {type: 'budget', id: transDisabled.id}) }}" class="link">{{ transDisabled.labelName }}</a>
-                    </p>
-                    <p>{{ transDisabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                <div class="column is-8">
+                    <div class="columns is-mobile">
+                        <div class="column is-half">
+                            <p class="is-size-7">
+                                <a href="{{ path('operation.edit', {type: 'budget', id: transDisabled.id}) }}" class="link">
+                                    {{ transDisabled.labelName }}
+                                    <span class="fas fa-link"></span>
+                                </a>
+                            </p>
+                            <p>{{ transDisabled.amount | number_format(2, ',', ' ') }} &euro;</p>
+                        </div>
+                        <div class="column">
+                            <span class="tag is-info is-pulled-right">{{ transDisabled.idRefTransactionType.labelName }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="column">
                     {% set budgetStatusKey = 'App\\Controller\\BudgetController::' %}
                     {% set budgetStatus = constant(budgetStatusKey ~ 'STATUT_ENABLE') %}
-                    <a href="{{ path('budget.manage', {id: transDisabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-success">
+                    <a href="{{ path('budget.manage', {id: transDisabled.id, status: budgetStatus}) }}" class="button is-outlined is-pulled-right is-success is-small is-rounded">
                         Activer
                     </a>
                 </div>

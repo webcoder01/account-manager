@@ -15,8 +15,9 @@ class RefTransactionType extends AbstractType
             'class' => 'App:RefTransactionType',
             'query_builder' => function(EntityRepository $er) {
                 return $er->createQueryBuilder('t')
-                    ->addSelect('c')
+                    ->addSelect('c, b')
                     ->innerJoin('t.idRefTransactionCategory', 'c')
+                    ->leftJoin('t.idBudget', 'b')
                     ->orderBy('c.labelName', 'ASC')
                     ->addOrderBy('t.labelName', 'ASC');
             },

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande de mot de passe{% endblock %}
+
+{% block body %}
+    <div class="columns is-mobile is-centered">
+        <div class="column is-half-desktop form-mt">
+            <h2 class="subtitle">Nouvelle demande de mot de passe</h2>
+            {% if error is defined %}
+                {% include 'layout/error.action.html.twig' with {error: error} only %}
+            {% endif %}
+            {{ form_start(form) }}
+            {{ form_row(form.email) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{#    <script type="text/javascript" src="{{ asset('build/login.js') }}"></script>#}
+{% endblock %}

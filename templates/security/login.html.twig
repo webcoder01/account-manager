@@ -1,38 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/login.css') }}">
+{% endblock %}
+
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
     <div class="columns is-mobile is-centered">
-        <div class="column is-half-desktop">
-            <div class="box">
-                {{ form_start(form) }}
+        <div class="column is-half-tablet is-4-fullhd form-mt">
+            {% if null != error %}
+                {% include 'layout/error.action.html.twig' with {error: error.message|trans({}, 'security')} only %}
+            {% endif %}
+            {{ form(form) }}
+        </div>
+    </div>
 
-                <div class="field">
-                    <label class="label is-small">Email</label>
-                    <div class="control">
-                        {{ form_widget(form.emailCanonical) }}
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label is-small">Mot de passe</label>
-                    <div class="control">
-                        {{ form_widget(form.password) }}
-                    </div>
-                </div>
-
-                <div class="field is-grouped">
-                    <p class="control">
-                        <button class="button is-primary">Connexion</button>
-                    </p>
-                    <p class="control">
-                        <a href="#" class="button is-text">Mot de passe oublié ?</a>
-                    </p>
-                </div>
-
-                {{ form_end(form) }}
-            </div>
+    <div class="columns is-mobile">
+        <div class="column is-size-7 has-text-centered">
+            <a class="link" href="{{ path('reset_request') }}">Mot de passe oublié ?</a>
         </div>
     </div>
 {% endblock %}

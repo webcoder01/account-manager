@@ -27,8 +27,10 @@ class BudgetRepository extends ServiceEntityRepository
 
     /**
      * Get all budgets by account
+     *
      * @param int $accountId
      * @param bool $activeOnly
+     *
      * @return array
      */
     public function findByAccount(int $accountId, bool $activeOnly = false): array
@@ -56,12 +58,15 @@ class BudgetRepository extends ServiceEntityRepository
         
         return $query->getQuery()->getResult();
     }
-    
+
     /**
      * Get one budget by id by account
+     *
      * @param int $id
      * @param int $accountId
+     *
      * @return Budget|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findByIdByAccount(int $id, int $accountId): ?Budget
     {
@@ -79,8 +84,10 @@ class BudgetRepository extends ServiceEntityRepository
     
     /**
      * Find budget from user by id
+     *
      * @param int $userId
      * @param int $id
+     *
      * @return Budget|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

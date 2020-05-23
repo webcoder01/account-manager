@@ -389,6 +389,18 @@
         <source>account.label_name.max_length</source>
         <target>Le libellé est trop long</target>
       </trans-unit>
+      <trans-unit id="2cJaxZ4" resname="transaction.label_name.regex">
+        <source>transaction.label_name.regex</source>
+        <target>Le libellé ne peut contenir de caractères spéciaux</target>
+      </trans-unit>
+      <trans-unit id="ronDbYv" resname="transaction.label_name.max_length">
+        <source>transaction.label_name.max_length</source>
+        <target>Le nom de l'opération est limité à %max% caractères</target>
+      </trans-unit>
+      <trans-unit id="Rp_Muib" resname="transaction.amount.regex">
+        <source>transaction.amount.regex</source>
+        <target>Le montant ne peut dépasser 999 999 et ne peut comporter que des chiffres et un . comme séparateur</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

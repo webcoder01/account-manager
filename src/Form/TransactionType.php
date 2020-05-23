@@ -3,11 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Transaction;
+use App\Form\Type\BulmaSubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -17,19 +19,30 @@ use App\Form\Type\RefTransactionType;
 
 class TransactionType extends AbstractType
 {
+    /**
+     * @var \DateTime
+     */
     private $dateAccount;
-    
-    public function __construct(SessionInterface $session)
+
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    public function __construct(SessionInterface $session, RouterInterface $router)
     {
         $this->dateAccount = $session->get(Session::NAVIGATION_ACCOUNT, new \DateTime());
+        $this->router = $router;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $newButtonRoute = $this->router->generate('account.view', ['year' => $this->dateAccount->format('Y'), 'month' => $this->dateAccount->format('n')]);
+
         $builder
             ->add('labelName', TextType::class, [
+                'label' => 'Libellé',
                 'attr' =>[
-                    'class' => 'input',
                     'maxlength' => 100,
                 ],
                 'constraints' => [
@@ -44,8 +57,8 @@ class TransactionType extends AbstractType
                 ],
             ])
             ->add('amount', TextType::class, [
+                'label' => 'Montant',
                 'attr' => [
-                    'class' => 'input',
                     'maxlength' => 9,
                 ],
                 'constraints' => [
@@ -57,8 +70,16 @@ class TransactionType extends AbstractType
             ])
             ->add('actionDate', ChoiceType::class, [
                 'choices' => DateManager::getDayOptions($this->dateAccount),
+                'label' => 'Date',
             ])
-            ->add('idRefTransactionType', RefTransactionType::class)
+            ->add('idRefTransactionType', RefTransactionType::class, [
+                'label' => 'Type',
+            ])
+            ->add('save', BulmaSubmitType::class, [
+                'additional_button' => $options['additional_button'] ? BulmaSubmitType::getNewButton('Annuler', 'is-text', $newButtonRoute) : [],
+                'label' => 'Enregistrer',
+                'attr' => ['class' => BulmaSubmitType::addClass('is-primary')],
+            ])
         ;
     }
 
@@ -66,6 +87,7 @@ class TransactionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transaction::class,
+            'additional_button' => true,
         ]);
     }
 }
