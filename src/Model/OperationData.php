@@ -8,6 +8,7 @@ use App\Entity\Transaction;
 use App\Entity\Income;
 use App\Entity\Account;
 use App\Entity\Budget;
+use Doctrine\Common\Persistence\ObjectRepository;
 
 class OperationData implements OperationDataInterface
 {
@@ -39,8 +40,13 @@ class OperationData implements OperationDataInterface
         
         return $entity;
     }
-    
-    public static function getFormType(string $type)
+
+    /**
+     * @param string $type
+     *
+     * @return string|null
+     */
+    public static function getFormType(string $type): ?string
     {
         switch($type)
         {
@@ -60,8 +66,14 @@ class OperationData implements OperationDataInterface
         
         return $class;
     }
-    
-    public static function getRepository(string $type, EntityManagerInterface $em)
+
+    /**
+     * @param string $type
+     * @param EntityManagerInterface $em
+     *
+     * @return ObjectRepository|null
+     */
+    public static function getRepository(string $type, EntityManagerInterface $em): ?ObjectRepository
     {
         switch($type)
         {
