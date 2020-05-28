@@ -115,7 +115,7 @@ class OperationController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $operationSession = $session->get(Session::OPERATION_EDIT);
-        $repository = OperationData::TRANSACTION_TYPE === $type ? $em->getRepository('App:Transaction') : $em->getRepository('App:Income');
+        $repository = OperationData::getRepository($type, $em);
         $entity = $repository->findByUserById($user->getId(), $id);
         if(null === $entity) {
             throw new \Exception($type . ' not found');
