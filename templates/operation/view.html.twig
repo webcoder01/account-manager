@@ -89,8 +89,10 @@
                             <p class="is-size-7">
                                 <a href="{{ path('operation.edit', {type: 'budget', id: trans.id}) }}" class="link">
                                     {{ trans.labelName }}
-                                    <span class="fas fa-link"></span>
                                 </a>
+                                {% if trans.isEstimated %}
+                                    <span class="fas fa-bookmark has-text-grey-light budget-estimated"></span>
+                                {% endif %}
                             </p>
                             <p>{{ trans.amount | number_format(2, ',', ' ') }} &euro;</p>
                         </div>
