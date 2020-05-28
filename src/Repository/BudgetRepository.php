@@ -44,7 +44,8 @@ class BudgetRepository extends ServiceEntityRepository
                 ->where('a.id = :accountId')
                 ->andWhere('b.dateMonth = :month')
                 ->andWhere('b.dateYear = :year')
-                ->orderBy('b.isActive')
+                ->orderBy('b.isActive', 'DESC')
+                ->addOrderBy('b.isEstimated', 'DESC')
                 ->addOrderBy('b.idRefTransactionType')
                 ->setParameters([
                     'accountId' => $accountId,
