@@ -107,7 +107,7 @@ class RefTransactionType
 
     public function getIdBudget(): ?Budget
     {
-        return $this->budgets;
+        return $this->idBudget;
     }
     
     public function setIdBudget(?Budget $idBudget): self
