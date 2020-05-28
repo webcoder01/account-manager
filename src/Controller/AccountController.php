@@ -30,7 +30,7 @@ class AccountController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function view(Request $request, BudgetManager $budgetManager, $id, $year, $month)
+    public function view(Request $request, $id, $year, $month)
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -66,7 +66,7 @@ class AccountController extends AbstractController
         $incomes = $incomeRepo->findByAccount($account->getId(), $dateAsked);
         
         // Get budgets
-        $budgets = $budgetManager->groupBudgetsByStatus($budgetRepo->findByAccount($account->getId()));
+        $budgets = $budgetRepo->findByAccount($account->getId());
 
         // Add a new transaction
         $newTransaction = OperationData::createEntity(OperationData::TRANSACTION_TYPE, $account);
